@@ -1,0 +1,12 @@
+.step {
+	fill:#FFFFFF;
+	stroke:#000000;
+	stroke-width:1px;
+}
+
+.type {
+	font-size:12px;
+	font-family:sans-serif;
+	fill:#000000;
+	stroke:none;
+}

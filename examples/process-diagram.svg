@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<?xml-stylesheet type="text/css" href="../css/pipeline.css"?>
 <svg xmlns="http://www.w3.org/2000/svg"
 		xmlns:xlink="http://www.w3.org/1999/xlink"
 		width="1024px" height="768px"
-		viewBox="0 0 1024 768">
+		viewBox="0 0 1024 768" version="1.1">
 	<style type="text/css">
 		<![CDATA[
-		
-		.step {
-			fill:#FFFFFF;
-			stroke:#000000;
-			stroke-width:1px;
-		}
-		
-		.type {
-			font-size:12px;
-			font-family:sans-serif;
-			fill:#000000;
-			stroke:none;
-		}
 		
 		]]>
 	</style>
