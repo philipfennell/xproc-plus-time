@@ -14,14 +14,36 @@
 		exclude-result-prefixes="c cx ml p svg xlink xpt xs xsi" 
 		version="2.0">
 	
-	<xsl:import href="normalise-xproc.xsl"/>
+	<xsl:import href="parse-xproc.xsl"/>
 	
 	<xsl:output encoding="UTF-8" indent="yes" media-type="application/xml" method="xml"/>
 
 	<xsl:strip-space elements="*"/>
 
-	<xsl:variable name="vSpacing" as="xs:integer" select="162"/>
-
+	<xsl:variable name="vSpacing" as="xs:integer" select="180"/>
+	
+	<xsl:attribute-set name="step">
+		<xsl:attribute name="fill">#FFFFFF</xsl:attribute>
+		<xsl:attribute name="stroke">#000000</xsl:attribute>
+		<xsl:attribute name="stroke-width">1px</xsl:attribute>
+	</xsl:attribute-set>
+	
+	<xsl:attribute-set name="labels">
+		<xsl:attribute name="font-size">12px</xsl:attribute>
+		<xsl:attribute name="font-family">sans-serif</xsl:attribute>
+		<xsl:attribute name="font-weight">bold</xsl:attribute>
+		<xsl:attribute name="fill">#000000</xsl:attribute>
+		<xsl:attribute name="stroke">none</xsl:attribute>
+	</xsl:attribute-set>
+	
+	<xsl:attribute-set name="name">
+		<xsl:attribute name="font-style">italic</xsl:attribute>
+		<xsl:attribute name="font-weight">normal</xsl:attribute>
+	</xsl:attribute-set>
+	
+	
+	
+	
 	<!--  -->
 	<xsl:template match="/">
 		<xsl:variable name="normalisedPipeline" as="document-node()">
@@ -30,38 +52,17 @@
 			</xsl:document>
 		</xsl:variable>
 		
-		<xsl:apply-templates select="$normalisedPipeline" mode="p:steps"/>
+		<xsl:apply-templates select="$normalisedPipeline" mode="p:pipeline"/>
 	</xsl:template>
 	
 	
 
 	<!--  -->
-	<xsl:template match="/p:declare-step" mode="p:steps">
+	<xsl:template match="/p:declare-step" mode="p:pipeline">
 		<svg version="1.1">
 			<xsl:call-template name="svg:dimensions"/>
 		
-			<style type="text/css">
-					<![CDATA[
-					.step {
-						fill:#FFFFFF;
-						stroke:#000000;
-						stroke-width:1px;
-					}
-					
-					.labels {
-						font-size:12px;
-						font-family:sans-serif;
-						fill:#000000;
-						stroke:none;
-					}
-					
-					.name {
-						font-style:italic;
-					}
-					]]>
-				</style>
-			
-			<xsl:apply-templates select="*[@xpt:visible = true()]" mode="#current"/>
+			<xsl:apply-templates select="*[@xpt:visible = true()]" mode="p:steps"/>
 		</svg>
 	</xsl:template>
 	
@@ -71,15 +72,15 @@
 
 	<!-- Ignore unsupported steps. -->
 	<xsl:template match="*" mode="p:steps">
-		<g class="step"
+		<g xsl:use-attribute-sets="step"
 				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[@xpt:visible = true()]) + 1), ')')}">
-			<rect class="step" x="0" y="0" width="162" height="100"/>
+			<rect x="0" y="0" width="180" height="112"/>
 			<xsl:apply-templates select="p:input | p:output" mode="p:ports"/>
-			<g class="labels">
-				<text class="type" x="10" y="26">
+			<g xsl:use-attribute-sets="labels">
+				<text x="12" y="26">
 					<xsl:value-of select="name()"/>
 				</text>
-				<text class="name" x="10" y="42">
+				<text xsl:use-attribute-sets="name" x="12" y="42">
 					<xsl:value-of select="(@name, 'anonymous')[1]"/>
 				</text>
 			</g>
@@ -92,13 +93,13 @@
 
 	<!-- Input port. -->
 	<xsl:template match="p:input" mode="p:ports">
-		<rect class="port input" x="20" y="-32" width="20" height="32"/>
+		<rect class="port input" x="{(count(preceding-sibling::p:input) * 32) + 12}" y="-32" width="20" height="32"/>
 	</xsl:template>
 
 
 	<!-- Output port. -->
 	<xsl:template match="p:output" mode="p:ports">
-		<rect class="port output" x="20" y="-32" width="20" height="32"/>
+		<rect class="port output" x="{(count(preceding-sibling::p:input) * 32) + 12}" y="112" width="20" height="32"/>
 	</xsl:template>
 
 
