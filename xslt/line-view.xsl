@@ -17,7 +17,7 @@
 	<xsl:import href="xproc2svg.xsl"/>
 	
 	
-	<xsl:output encoding="UTF-8" indent="yes" media-type="application/xml" method="xml"/>
+	<xsl:output encoding="UTF-8" indent="yes" media-type="application/svg+xml" method="xml"/>
 
 	<xsl:strip-space elements="*"/>
 
@@ -37,7 +37,7 @@
 	<!-- Ignore unsupported steps. -->
 	<xsl:template match="*" mode="p:steps">
 		<g xsl:use-attribute-sets="step"
-				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[@xpt:visible = true()]) + 1), ')')}">
+				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
 			<!--<xsl:apply-templates select="p:input | p:output" mode="p:ports"/>-->
 			<xsl:if test="exists(following-sibling::*)">
 				<line xsl:use-attribute-sets="connection" x1="0" y1="0" x2="0" y2="{$vSpacing - 3}"/>

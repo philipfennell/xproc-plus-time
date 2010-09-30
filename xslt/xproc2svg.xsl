@@ -2,6 +2,7 @@
 <xsl:transform 
 		xmlns="http://www.w3.org/2000/svg" 
 		xmlns:c="http://www.w3.org/ns/xproc-step"
+		xmlns:css="http://www.w3.org/TR/CSS2"
 		xmlns:cx="http://xmlcalabash.com/ns/extensions"
 		xmlns:ml="http://xmlcalabash.com/ns/extensions/marklogic" 
 		xmlns:p="http://www.w3.org/ns/xproc"
@@ -14,9 +15,9 @@
 		exclude-result-prefixes="c cx ml p svg xlink xpt xs xsi" 
 		version="2.0">
 	
-	<xsl:import href="parse-xproc.xsl"/>
+	<xsl:import href="visible-steps.xsl"/>
 	
-	<xsl:output encoding="UTF-8" indent="yes" media-type="application/xml" method="xml"/>
+	<xsl:output encoding="UTF-8" indent="yes" media-type="application/svg+xml" method="xml"/>
 
 	<xsl:strip-space elements="*"/>
 
@@ -62,7 +63,7 @@
 		<svg version="1.1">
 			<xsl:call-template name="svg:dimensions"/>
 		
-			<xsl:apply-templates select="*[@xpt:visible = true()]" mode="p:steps"/>
+			<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
 		</svg>
 	</xsl:template>
 	
@@ -73,7 +74,7 @@
 	<!-- Ignore unsupported steps. -->
 	<xsl:template match="*" mode="p:steps">
 		<g xsl:use-attribute-sets="step"
-				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[@xpt:visible = true()]) + 1), ')')}">
+				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
 			<rect x="0" y="0" width="180" height="112"/>
 			<xsl:apply-templates select="p:input | p:output" mode="p:ports"/>
 			<g xsl:use-attribute-sets="labels">
@@ -106,6 +107,14 @@
 	<!--  -->
 	<xsl:template name="svg:dimensions" as="attribute()*">
 		<xsl:attribute name="width" select="'1024'"/>
-		<xsl:attribute name="height" select="$vSpacing * (count(*[@xpt:visible = true()]) + 1)"/>
+		<xsl:attribute name="height" select="$vSpacing * (count(*[xpt:isVisible(.)]) + 1)"/>
 	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:function name="xpt:isVisible" as="xs:boolean">
+		<xsl:param name="contextNode" as="element()"/>
+		
+		<xsl:value-of select="if ($contextNode/@css:visibility = 'visible') then true() else false()"/>
+	</xsl:function>
 </xsl:transform>

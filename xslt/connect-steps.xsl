@@ -12,24 +12,38 @@
 		exclude-result-prefixes="c cx ml p xs xsi" 
 		version="2.0">
 	
+	<xsl:output encoding="UTF-8" indent="yes" media-type="application/xproc+xml" method="xml"/>
 	
-	<!--  -->
-	<xsl:template match="/">
-		<xsl:apply-templates select="*" mode="p:visible"/>
-	</xsl:template>
+	<xsl:include href="common.xsl"/>
 	
 	
-	<!-- Steps that should be visible have their xpt:visible attribute set to 
-		 true(). -->
-	<xsl:template match="*" mode="p:visible">
-		<xsl:copy>
-			<xsl:copy-of select="@*"/>
-			<xsl:attribute name="xpt:visible" select="if (name() = ('p:input', 'p:output', 'p:serialization', 'p:import', 'p:declare-step', 'p:pipeinfo', 'p:documentation')) then false() else true()"/>
-			<xsl:apply-templates select="* | text()" mode="#current"/>
-		</xsl:copy>
+	
+	
+	<xsl:template match="p:input | p:output | p:document| p:inline| p:data | p:pipe | p:pipeinfo | p:documentation" mode="p:visible">
+		<xsl:copy-of select="."/>
 	</xsl:template>
 	
 	<xsl:template match="p:input | p:output | p:document| p:inline| p:data | p:pipe | p:pipeinfo | p:documentation" mode="p:visible">
 		<xsl:copy-of select="."/>
 	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:template match="/">
+		<xsl:apply-templates select="*" mode="p:connect"/>
+	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:template match="*" mode="p:connect">
+		<xsl:copy>
+			<xsl:copy-of select="@*"/>
+			<xsl:if test="not(@name)">
+				<xsl:attribute name="name" select="concat('anon', generate-id())"/>
+			</xsl:if>
+			<xsl:apply-templates select="* | text()" mode="#current"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	
 </xsl:transform>
