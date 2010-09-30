@@ -17,32 +17,50 @@
 	<xsl:include href="common.xsl"/>
 	
 	
-	
-	
-	<xsl:template match="p:input | p:output | p:document| p:inline| p:data | p:pipe | p:pipeinfo | p:documentation" mode="p:visible">
-		<xsl:copy-of select="."/>
-	</xsl:template>
-	
-	<xsl:template match="p:input | p:output | p:document| p:inline| p:data | p:pipe | p:pipeinfo | p:documentation" mode="p:visible">
-		<xsl:copy-of select="."/>
-	</xsl:template>
-	
-	
 	<!--  -->
 	<xsl:template match="/">
-		<xsl:apply-templates select="*" mode="p:connect"/>
+		<xsl:apply-templates select="*" mode="p:connect">
+			<xsl:with-param name="p:stepDeclarations" as="element(p:library)" 
+					select="doc('../xproc/xproc-steps-lib.xpl')/p:library"
+					tunnel="yes"/>
+		</xsl:apply-templates>
 	</xsl:template>
 	
 	
 	<!--  -->
 	<xsl:template match="*" mode="p:connect">
+		<xsl:param name="p:stepDeclarations" as="element(p:library)" tunnel="yes"/>
+		<xsl:variable name="p:contextStepDeclaration" as="element()?" 
+				select="$p:stepDeclarations/p:declare-step[@type = name(current())]"/>
+		<xsl:variable name="declaredPorts" as="xs:string*" select="">
+			<xsl:for-each select="p:contextStepDeclaration/(p:input | p:output)">
+				<xsl:value-of select="string-join((local-name(), @port), ':')"/>
+			</xsl:for-each>
+		</xsl:variable>
+		
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
 			<xsl:if test="not(@name)">
 				<xsl:attribute name="name" select="concat('anon', generate-id())"/>
 			</xsl:if>
-			<xsl:apply-templates select="* | text()" mode="#current"/>
+			<xsl:for-each select="p:input | p:output">
+				<xsl:choose>
+					<xsl:when test="string-join((local-name(), @port), ':') = $declaredPorts">
+						<xsl:copy-of select="current()"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:copy-of select="p:contextStepDeclaration/(p:input | p:output)[local-name() = local-name(current()) and @port = current()/@port]"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:for-each>
+			<xsl:apply-templates select="* except (p:input, p:output) | text()" mode="#current"/>
 		</xsl:copy>
+	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:template match="p:input" mode="p:ports">
+		
 	</xsl:template>
 	
 	
