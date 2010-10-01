@@ -57,6 +57,7 @@
 	
 	<!--  -->
 	<xsl:template match="p:input" mode="p:ports" priority="1">
+		<xsl:param name="p:stepDecls" as="element(p:library)" tunnel="yes"/>
 		<xsl:param name="contextStep" as="element()" tunnel="yes"/>
 		<xsl:variable name="contextPorts" as="element()*" select="$contextStep/p:input"/>
 		<xsl:variable name="contextPort" as="element()?" 
@@ -82,10 +83,15 @@
 					<xsl:copy-of select="$contextPort/*"/>
 				</xsl:when>
 				<xsl:otherwise>
+					<xsl:variable name="nonStepNames" as="xs:string+" 
+							select="('p:input', 'p:output', 'p:option', 'p:log', 'p:serialization', 'p:declare-step', 'p:pipeline', 'p:import')"/>
 					<xsl:variable name="precedingStep" as="element()?" 
-							select="$contextStep/preceding-sibling::*[1]"/>
-					<p:pipe port="result" 
-							step="{($contextStep/preceding-sibling::*[1]/@name, generate-id($precedingStep))[1]}"/>
+							select="$contextStep/preceding-sibling::*[not(name() = $nonStepNames)][1]"/>
+					<xsl:if test="exists($precedingStep)">
+						<p:pipe port="result" 
+							step="{($precedingStep/@name, generate-id($precedingStep))[1]}"/>
+					</xsl:if>
+					
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:copy>
@@ -94,20 +100,14 @@
 	
 	<!--  -->
 	<xsl:template match="p:output" mode="p:ports" priority="1">
-		<xsl:param name="contextStep" as="element()" tunnel="yes"/>
-		<xsl:variable name="contextPorts" as="element()*" select="$contextStep/p:output"/>
-		<xsl:variable name="contextPort" as="element()?" 
-				select="$contextPorts/p:output[@port = current()/@port]"/>
-		
 		<p:pipeinfo>
 			<xsl:copy copy-namespaces="no">
 				<xsl:attribute name="xml:id" select="generate-id()"/>
 				<xsl:copy-of select="@*"/>
-				<xsl:for-each select="$contextPort/@*">
-					<xsl:attribute name="{name()}" select="."/>
-				</xsl:for-each>
-				<xsl:copy-of select="$contextPort/*"/>
 			</xsl:copy>
 		</p:pipeinfo>
 	</xsl:template>
+	
+	
+	
 </xsl:transform>
