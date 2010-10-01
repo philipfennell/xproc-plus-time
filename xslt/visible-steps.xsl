@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform 
-		xmlns="http://www.w3.org/2000/svg" 
 		xmlns:c="http://www.w3.org/ns/xproc-step"
 		xmlns:css="http://www.w3.org/TR/CSS2"
 		xmlns:cx="http://xmlcalabash.com/ns/extensions"

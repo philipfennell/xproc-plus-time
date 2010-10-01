@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform 
-		xmlns="http://www.w3.org/2000/svg" 
 		xmlns:c="http://www.w3.org/ns/xproc-step"
 		xmlns:cx="http://xmlcalabash.com/ns/extensions"
 		xmlns:ml="http://xmlcalabash.com/ns/extensions/marklogic" 
@@ -9,7 +8,7 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		exclude-result-prefixes="c cx ml p xs xsi" 
+		exclude-result-prefixes="c cx ml p xpt xs xsi" 
 		version="2.0">
 	
 	<xsl:output encoding="UTF-8" indent="yes" media-type="application/xproc+xml" method="xml"/>
@@ -17,51 +16,98 @@
 	<xsl:include href="common.xsl"/>
 	
 	
+	
+	
 	<!--  -->
 	<xsl:template match="/">
 		<xsl:apply-templates select="*" mode="p:connect">
-			<xsl:with-param name="p:stepDeclarations" as="element(p:library)" 
+			<xsl:with-param name="p:stepDecls" as="element(p:library)" 
 					select="doc('../xproc/xproc-steps-lib.xpl')/p:library"
 					tunnel="yes"/>
 		</xsl:apply-templates>
 	</xsl:template>
 	
 	
-	<!--  -->
-	<xsl:template match="*" mode="p:connect">
-		<xsl:param name="p:stepDeclarations" as="element(p:library)" tunnel="yes"/>
-		<xsl:variable name="p:contextStepDeclaration" as="element()?" 
-				select="$p:stepDeclarations/p:declare-step[@type = name(current())]"/>
-		<xsl:variable name="declaredPorts" as="xs:string*" select="">
-			<xsl:for-each select="p:contextStepDeclaration/(p:input | p:output)">
-				<xsl:value-of select="string-join((local-name(), @port), ':')"/>
-			</xsl:for-each>
-		</xsl:variable>
-		
+	<xsl:template match="p:declare-step" mode="p:connect">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
-			<xsl:if test="not(@name)">
-				<xsl:attribute name="name" select="concat('anon', generate-id())"/>
-			</xsl:if>
-			<xsl:for-each select="p:input | p:output">
-				<xsl:choose>
-					<xsl:when test="string-join((local-name(), @port), ':') = $declaredPorts">
-						<xsl:copy-of select="current()"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:copy-of select="p:contextStepDeclaration/(p:input | p:output)[local-name() = local-name(current()) and @port = current()/@port]"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:for-each>
-			<xsl:apply-templates select="* except (p:input, p:output) | text()" mode="#current"/>
+			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>
 	
 	
 	<!--  -->
-	<xsl:template match="p:input" mode="p:ports">
+	<xsl:template match="element()" mode="p:connect">
+		<xsl:param name="p:stepDecls" as="element(p:library)" tunnel="yes"/>
+		<xsl:variable name="p:contextStepDecl" as="element()?" 
+				select="$p:stepDecls/p:declare-step[@type = name(current())]"/>
 		
+		<xsl:copy>
+			<xsl:copy-of select="@*"/>
+			<xsl:if test="not(@name)">
+				<xsl:attribute name="name" select="generate-id()"/>
+			</xsl:if>
+			<xsl:apply-templates select="$p:contextStepDecl/(p:input | p:output)" mode="p:ports">
+				<xsl:with-param name="contextStep" as="element()" select="current()" tunnel="yes"/>
+			</xsl:apply-templates>
+			<xsl:apply-templates select="* except (p:input | p:output) | text()" mode="#current"/>
+		</xsl:copy>
 	</xsl:template>
 	
 	
+	<!--  -->
+	<xsl:template match="p:input" mode="p:ports" priority="1">
+		<xsl:param name="contextStep" as="element()" tunnel="yes"/>
+		<xsl:variable name="contextPorts" as="element()*" select="$contextStep/p:input"/>
+		<xsl:variable name="contextPort" as="element()?" 
+				select="$contextPorts[@port = current()/@port]"/>
+		
+		<xsl:copy copy-namespaces="no">
+			<xsl:attribute name="xml:id" select="generate-id()"/>
+			<xsl:copy-of select="@* except (@sequence, @primary)"/>
+			<xsl:for-each select="$contextPort/@*">
+				<xsl:attribute name="{name()}" select="."/>
+			</xsl:for-each>
+			<xsl:if test="@sequence | @primary">
+				<p:pipeinfo>
+					<xsl:for-each select="(@sequence, @primary)">
+						<xsl:element name="p:{name()}" namespace="http://www.w3.org/ns/xproc">
+							<xsl:value-of select="current()"/>
+						</xsl:element>
+					</xsl:for-each>
+				</p:pipeinfo>
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$contextPort/*">
+					<xsl:copy-of select="$contextPort/*"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:variable name="precedingStep" as="element()?" 
+							select="$contextStep/preceding-sibling::*[1]"/>
+					<p:pipe port="result" 
+							step="{($contextStep/preceding-sibling::*[1]/@name, generate-id($precedingStep))[1]}"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:copy>
+	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:template match="p:output" mode="p:ports" priority="1">
+		<xsl:param name="contextStep" as="element()" tunnel="yes"/>
+		<xsl:variable name="contextPorts" as="element()*" select="$contextStep/p:output"/>
+		<xsl:variable name="contextPort" as="element()?" 
+				select="$contextPorts/p:output[@port = current()/@port]"/>
+		
+		<p:pipeinfo>
+			<xsl:copy copy-namespaces="no">
+				<xsl:attribute name="xml:id" select="generate-id()"/>
+				<xsl:copy-of select="@*"/>
+				<xsl:for-each select="$contextPort/@*">
+					<xsl:attribute name="{name()}" select="."/>
+				</xsl:for-each>
+				<xsl:copy-of select="$contextPort/*"/>
+			</xsl:copy>
+		</p:pipeinfo>
+	</xsl:template>
 </xsl:transform>
