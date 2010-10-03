@@ -19,12 +19,12 @@
 			<p:document href="xslt/connect-steps.xsl"/>
 		</p:input>
 	</p:xslt>
-	<!--
+	
 	<p:xslt name="visible-steps">
 		<p:documentation>Tags all steps that are to appear in the view with a css:visibility attribute.</p:documentation>
 		<p:input port="stylesheet">
 			<p:document href="xslt/visible-steps.xsl"/>
 		</p:input>
 	</p:xslt>
-	-->
+	
 </p:pipeline>
