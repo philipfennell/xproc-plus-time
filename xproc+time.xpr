@@ -11,13 +11,24 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">xproc-parser</String>
+                                    <String xml:space="preserve">xproc-viewer</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XPROC</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">xproc/xproc-parser.xpl</String>
+                                    <String xml:space="preserve">xproc/xproc-view.xpl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">check</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XPROC</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">results/xproc-parser.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -29,17 +40,6 @@
                                 </field>
                                 <field name="url">
                                     <String xml:space="preserve">examples/build-request.xpl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">xproc-parser transform</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XPROC</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">results/xproc-parser.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -62,17 +62,6 @@
                                 </field>
                                 <field name="url">
                                     <String xml:space="preserve">xslt/parse-xproc.xsl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">xproc2svg</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XML</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">xslt/xproc2svg.xsl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -297,28 +286,6 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">test</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">http://admin:9.1.199;152;159;204;169;150;296;91;423;262;286;139;347;288;89;293;197;169;210;263;@aldgate:8054/humancrawl/lib/lib-queue.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">test</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">http://admin:9.1.199;152;159;204;169;150;296;91;423;262;286;139;347;288;89;293;197;169;210;263;@aldgate:8054/humancrawl/admin/unlockall.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
                                     <String xml:space="preserve">filter-test</String>
                                 </field>
                                 <field name="type">
@@ -447,6 +414,28 @@
                                 </field>
                                 <field name="url">
                                     <String xml:space="preserve">xproc/extract-xproc-language-summary.xpl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">xproc2svg</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XML</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">xslt/xproc2svg.xsl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">xproc-parser</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XPROC</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">xproc/xproc-parser.xpl</String>
                                 </field>
                             </scenarioAssociation>
                         </scenarioAssociation-array>
@@ -1150,16 +1139,7 @@
                                     <xprocOption-array/>
                                 </field>
                                 <field name="xprocParameters">
-                                    <xprocParameterPort-array>
-                                    <xprocParameterPort>
-                                    <field name="portName">
-                                    <String xml:space="preserve">*</String>
-                                    </field>
-                                    <field name="parameters">
-                                    <xprocParameter-array/>
-                                    </field>
-                                    </xprocParameterPort>
-                                    </xprocParameterPort-array>
+                                    <xprocParameterPort-array/>
                                 </field>
                                 <field name="advancedOptionsMap">
                                     <null/>
@@ -1395,7 +1375,16 @@
                                     <xprocOption-array/>
                                 </field>
                                 <field name="xprocParameters">
-                                    <xprocParameterPort-array/>
+                                    <xprocParameterPort-array>
+                                    <xprocParameterPort>
+                                    <field name="portName">
+                                    <String xml:space="preserve">*</String>
+                                    </field>
+                                    <field name="parameters">
+                                    <xprocParameter-array/>
+                                    </field>
+                                    </xprocParameterPort>
+                                    </xprocParameterPort-array>
                                 </field>
                                 <field name="advancedOptionsMap">
                                     <null/>
@@ -1631,6 +1620,124 @@
                                     <xprocOption-array/>
                                 </field>
                                 <field name="xprocParameters">
+                                    <xprocParameterPort-array/>
+                                </field>
+                                <field name="advancedOptionsMap">
+                                    <null/>
+                                </field>
+                                <field name="name">
+                                    <String xml:space="preserve">xproc-parser transform</String>
+                                </field>
+                                <field name="baseURL">
+                                    <null/>
+                                </field>
+                                <field name="footerURL">
+                                    <null/>
+                                </field>
+                                <field name="fOPMethod">
+                                    <null/>
+                                </field>
+                                <field name="fOProcessorName">
+                                    <null/>
+                                </field>
+                                <field name="headerURL">
+                                    <null/>
+                                </field>
+                                <field name="inputXSLURL">
+                                    <String xml:space="preserve">${currentFileURL}</String>
+                                </field>
+                                <field name="inputXMLURL">
+                                    <String xml:space="preserve"></String>
+                                </field>
+                                <field name="defaultScenario">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="isFOPPerforming">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XPROC</String>
+                                </field>
+                                <field name="saveAs">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="openInBrowser">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="outputFile">
+                                    <null/>
+                                </field>
+                                <field name="openOtherLocationInBrowser">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="locationToOpenInBrowserURL">
+                                    <null/>
+                                </field>
+                                <field name="openInEditor">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="showInHTMLPane">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="showInXMLPane">
+                                    <Boolean xml:space="preserve">true</Boolean>
+                                </field>
+                                <field name="showInSVGPane">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="showInResultSetPane">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="useXSLTInput">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                </field>
+                                <field name="xsltParams">
+                                    <list/>
+                                </field>
+                                <field name="cascadingStylesheets">
+                                    <String-array/>
+                                </field>
+                                <field name="xslTransformer">
+                                    <String xml:space="preserve">Calabash XProc</String>
+                                </field>
+                                <field name="extensionURLs">
+                                    <String-array/>
+                                </field>
+                            </xprocScenario>
+                            <xprocScenario>
+                                <field name="inputPorts">
+                                    <xprocInputPort-array>
+                                    <xprocInputPort>
+                                    <field name="portName">
+                                    <String xml:space="preserve">source</String>
+                                    </field>
+                                    <field name="urls">
+                                    <String-array>
+                                    <String xml:space="preserve">${pdu}/examples/build-request.xpl</String>
+                                    </String-array>
+                                    </field>
+                                    </xprocInputPort>
+                                    </xprocInputPort-array>
+                                </field>
+                                <field name="outputPorts">
+                                    <xprocOutputPort-array>
+                                    <xprocOutputPort>
+                                    <field name="portName">
+                                    <String xml:space="preserve">result</String>
+                                    </field>
+                                    <field name="url">
+                                    <String xml:space="preserve">${pdu}/results/${cfn}.svg</String>
+                                    </field>
+                                    <field name="showInSequenceView">
+                                    <Boolean xml:space="preserve">false</Boolean>
+                                    </field>
+                                    </xprocOutputPort>
+                                    </xprocOutputPort-array>
+                                </field>
+                                <field name="xprocOptions">
+                                    <xprocOption-array/>
+                                </field>
+                                <field name="xprocParameters">
                                     <xprocParameterPort-array>
                                     <xprocParameterPort>
                                     <field name="portName">
@@ -1646,7 +1753,7 @@
                                     <null/>
                                 </field>
                                 <field name="name">
-                                    <String xml:space="preserve">xproc-parser transform</String>
+                                    <String xml:space="preserve">xproc-viewer</String>
                                 </field>
                                 <field name="baseURL">
                                     <null/>

@@ -39,8 +39,8 @@
 		<g xsl:use-attribute-sets="step"
 				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
 			<!--<xsl:apply-templates select="p:input | p:output" mode="p:ports"/>-->
-			<xsl:if test="exists(following-sibling::*)">
-				<line xsl:use-attribute-sets="connection" x1="0" y1="0" x2="0" y2="{$vSpacing - 3}"/>
+			<xsl:if test="p:input/p:pipe">
+				<line xsl:use-attribute-sets="connection" x1="0" y1="0" x2="0" y2="-{$vSpacing - 6}"/>
 			</xsl:if>
 			<g xsl:use-attribute-sets="labels">
 				<text x="12" y="-7">

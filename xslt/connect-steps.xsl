@@ -28,6 +28,7 @@
 	</xsl:template>
 	
 	
+	<!--  -->
 	<xsl:template match="p:declare-step" mode="p:connect">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
@@ -107,7 +108,5 @@
 			</xsl:copy>
 		</p:pipeinfo>
 	</xsl:template>
-	
-	
 	
 </xsl:transform>
