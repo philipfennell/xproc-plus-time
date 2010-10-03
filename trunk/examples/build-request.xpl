@@ -37,9 +37,9 @@
 	
 	<p:identity name="request"/>
 	
-	<!--<p:http-request name="response" encoding="utf-8" indent="true" media-type="application/xml" method="xml">
+	<p:http-request name="response" encoding="utf-8" indent="true" media-type="application/xml" method="xml">
 		<p:documentation>Submit request.</p:documentation>
-	</p:http-request>-->
+	</p:http-request>
 	
 	<p:wrap-sequence wrapper="c:result">
 		<p:documentation>Handle response.</p:documentation>

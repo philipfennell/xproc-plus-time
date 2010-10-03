@@ -62,7 +62,7 @@
 	<xsl:template match="/p:declare-step" mode="p:pipeline">
 		<svg version="1.1">
 			<xsl:call-template name="svg:dimensions"/>
-		
+			
 			<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
 		</svg>
 	</xsl:template>
@@ -93,15 +93,15 @@
 
 
 	<!-- Input port. -->
-	<xsl:template match="p:input" mode="p:ports">
+	<!--<xsl:template match="p:input" mode="p:ports">
 		<rect class="port input" x="{(count(preceding-sibling::p:input) * 32) + 12}" y="-32" width="20" height="32"/>
 	</xsl:template>
-
+-->
 
 	<!-- Output port. -->
-	<xsl:template match="p:output" mode="p:ports">
+	<!--<xsl:template match="p:output" mode="p:ports">
 		<rect class="port output" x="{(count(preceding-sibling::p:input) * 32) + 12}" y="112" width="20" height="32"/>
-	</xsl:template>
+	</xsl:template>-->
 
 
 	<!--  -->

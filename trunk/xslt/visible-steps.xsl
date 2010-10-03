@@ -19,7 +19,11 @@
 	
 	<!--  -->
 	<xsl:template match="/">
-		<xsl:apply-templates select="*" mode="p:visible"/>
+		<xsl:variable name="visible" as="element()">
+			<xsl:apply-templates select="*" mode="p:visible"/>
+		</xsl:variable>
+		
+		<xsl:apply-templates select="$visible" mode="xpt:position"/>
 	</xsl:template>
 	
 	
@@ -29,6 +33,26 @@
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
 			<xsl:attribute name="css:visibility" select="if (name() = ('p:declare-step')) then 'hidden' else 'visible'"/>
+			<xsl:apply-templates select="* | text()" mode="#current"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:template match="*[@css:visibility]" mode="xpt:position">
+		<xsl:copy copy-namespaces="no">
+			<xsl:copy-of select="@*"/>
+			<xsl:attribute name="xpt:position" select="count(preceding-sibling::*[@css:visibility = 'visible']) + 1"/>
+			<xsl:apply-templates select="* | text()" mode="#current"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:template match="*" mode="xpt:position">
+		<xsl:copy copy-namespaces="no">
+			<xsl:copy-of select="@*"/>
+			
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>

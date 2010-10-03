@@ -28,20 +28,32 @@
 	</xsl:attribute-set>
 	
 	<xsl:attribute-set name="connection">
-		<!--<xsl:attribute name="stroke-dasharray">2,2</xsl:attribute>-->
+		<xsl:attribute name="fill">#000000</xsl:attribute>
+		<xsl:attribute name="stroke">#000000</xsl:attribute>
+		<xsl:attribute name="stroke-width">1px</xsl:attribute>
 	</xsl:attribute-set>
 	
 	
+	
+	<!--  -->
+	<xsl:template match="/p:declare-step" mode="p:pipeline">
+		<svg version="1.1">
+			<xsl:call-template name="svg:dimensions"/>
+			
+			<g transform="translate(168,0)">
+				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
+			</g>
+		</svg>
+	</xsl:template>
 	
 
 	<!-- Ignore unsupported steps. -->
 	<xsl:template match="*" mode="p:steps">
 		<g xsl:use-attribute-sets="step"
 				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
-			<!--<xsl:apply-templates select="p:input | p:output" mode="p:ports"/>-->
-			<xsl:if test="p:input/p:pipe">
-				<line xsl:use-attribute-sets="connection" x1="0" y1="0" x2="0" y2="-{$vSpacing - 6}"/>
-			</xsl:if>
+			
+			<xsl:apply-templates select="p:input" mode="p:ports"/>
+			
 			<g xsl:use-attribute-sets="labels">
 				<text x="12" y="-7">
 					<xsl:value-of select="name()"/>
@@ -57,8 +69,13 @@
 
 
 	<!-- Input port. -->
-	<xsl:template match="p:input" mode="p:ports">
-		<!--<rect class="port input" x="20" y="-32" width="20" height="32"/>-->
+	<xsl:template match="p:input[p:pipe]" mode="p:ports" priority="1">
+		<xsl:variable name="boundStep" as="element()*" select="../preceding-sibling::*[@name = current()/p:pipe/@step]"/>
+		<xsl:variable name="boundPort" as="element()" select="$boundStep/p:output[@port = current()/p:pipe/@port]"/>
+		
+		<line xsl:use-attribute-sets="connection" 
+				x1="0" y1="{number($boundStep/@xpt:position) * $vSpacing}" 
+				x2="0" y2="{number(../@xpt:position) * $vSpacing}"/>
 	</xsl:template>
 
 
