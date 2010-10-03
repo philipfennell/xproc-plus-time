@@ -13,9 +13,9 @@
 		exclude-result-prefixes="c cx ml p xs xsi" 
 		version="2.0">
 	
-	
+	<!--
 	<xsl:template match="p:import | p:input | p:output | p:serialization | p:option | p:document | p:inline | p:data | p:empty | p:pipe | p:pipeinfo | p:documentation" mode="#all">
 		<xsl:copy-of select="."/>
 	</xsl:template>
-	
+	-->
 </xsl:transform>
