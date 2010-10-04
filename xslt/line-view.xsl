@@ -121,8 +121,22 @@
 			<xsl:variable name="length" 
 					select="$distance * $vSpacing"/>
 			
-			<path xsl:use-attribute-sets="connection"
-					d="M 0 0 L -{62 * ($distance - 1)} {$length div 2} L 0 {$length}"/>
+			<!-- M0,0 c-86,0 -124,38 -124,100 l0,100 c0,62 38,100 124,100 -->
+			
+			<xsl:variable name="pathData" as="xs:string"
+				select="if ($distance gt 1) then 
+						string-join(
+							(
+								'M0,0',
+								concat('c', -62 * ($distance - 1), ',0'), 
+								concat(-62 * ($distance - 1), ',', $length),
+								concat('0,', $length)
+							), ' ') 
+						else 
+							concat('M0,0 L0,', $length)"/>
+				
+			<path xsl:use-attribute-sets="connection" d="{$pathData}"/>
+			
 		</xsl:for-each>
 	</xsl:template>
 
