@@ -101,8 +101,10 @@
 	<!-- Output port. -->
 	<!--<xsl:template match="p:output" mode="p:ports">
 		<rect class="port output" x="{(count(preceding-sibling::p:input) * 32) + 12}" y="112" width="20" height="32"/>
-	</xsl:template>-->
-
+		</xsl:template>-->
+		
+	
+	
 
 	<!--  -->
 	<xsl:template name="svg:dimensions" as="attribute()*">
