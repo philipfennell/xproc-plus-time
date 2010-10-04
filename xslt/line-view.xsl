@@ -25,7 +25,7 @@
 	<xsl:variable name="vSpacing" as="xs:integer" select="100"/>
 	
 	<xsl:attribute-set name="step">
-		<xsl:attribute name="fill">none</xsl:attribute>
+		<xsl:attribute name="fill">#FFFFFF</xsl:attribute>
 		<xsl:attribute name="stroke">#000000</xsl:attribute>
 		<xsl:attribute name="stroke-width">1px</xsl:attribute>
 	</xsl:attribute-set>
@@ -70,6 +70,7 @@
 			
 			<g transform="translate(168,0)">
 				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
+				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps2"/>
 			</g>
 		</svg>
 	</xsl:template>
@@ -87,11 +88,19 @@
 					<xsl:value-of select="name()"/>
 				</text>
 				<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
-				<circle xsl:use-attribute-sets="step" cx="0" cy="0" r="6"/>
 				<text xsl:use-attribute-sets="name" x="12" y="16">
 					<xsl:value-of select="(@name, 'anonymous')[1]"/>
 				</text>
 			</g>
+		</g>
+	</xsl:template>
+	
+	
+	<!-- Ignore unsupported steps. -->
+	<xsl:template match="*" mode="p:steps2">
+		<g xsl:use-attribute-sets="step"
+				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
+			<circle xsl:use-attribute-sets="step" cx="0" cy="0" r="6"/>
 		</g>
 	</xsl:template>
 
