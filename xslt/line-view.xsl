@@ -70,7 +70,7 @@
 			
 			<g transform="translate(168,0)">
 				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
-				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps2"/>
+				<!--<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps2"/>-->
 			</g>
 		</svg>
 	</xsl:template>
@@ -81,13 +81,14 @@
 		<g xsl:use-attribute-sets="step"
 				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
 			
-			<xsl:apply-templates select="p:input" mode="p:ports"/>
+			<xsl:apply-templates select="p:pipeinfo/p:output" mode="p:ports"/>
 			
 			<g xsl:use-attribute-sets="labels">
 				<text x="12" y="-7">
 					<xsl:value-of select="name()"/>
 				</text>
 				<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
+				<circle xsl:use-attribute-sets="step" cx="0" cy="0" r="6"/>
 				<text xsl:use-attribute-sets="name" x="12" y="16">
 					<xsl:value-of select="(@name, 'anonymous')[1]"/>
 				</text>
@@ -106,28 +107,28 @@
 
 
 	<!-- Input port. -->
-	<xsl:template match="p:input[p:pipe]" mode="p:ports" priority="1">
+	<xsl:template match="p:output" mode="p:ports" priority="1">
+		<xsl:variable name="parentStep" as="element()" select="../.."/>
 		<xsl:variable name="boundStep" as="element()*" 
-				select="../preceding-sibling::*[@name = current()/p:pipe/@step]"/>
-		<xsl:variable name="boundPort" as="element()" 
-				select="$boundStep/p:output[@port = current()/p:pipe/@port]"/>
-		<xsl:variable name="contextPosn" as="xs:integer"
-				select="xs:integer(number($boundStep/@xpt:position))"/>
-		<xsl:variable name="boundStepPosn" as="xs:integer"
-				select="xs:integer(number(../@xpt:position))"/>
-		<xsl:variable name="distance" as="xs:integer" 
-			select="$boundStepPosn - $contextPosn"/>
-		<xsl:variable name="length" 
-				select="((($distance) * $vSpacing)) * -1"/>
-		
-		<path xsl:use-attribute-sets="connection"
-				d="M 0 0 L -{62 * ($distance - 1)} {$length div 2} L 0 {$length}"/>
-		
+				select="$parentStep/following-sibling::*[@css:visibility = 'visible'][p:input/p:pipe/@step = $parentStep/@name]"/>
+		<xsl:for-each select="$boundStep">
+			<xsl:variable name="contextPosn" as="xs:integer"
+					select="xs:integer(number($parentStep/@xpt:position))"/>
+			<xsl:variable name="boundStepPosn" as="xs:integer"
+					select="xs:integer(number(@xpt:position))"/>
+			<xsl:variable name="distance" as="xs:integer" 
+					select="$boundStepPosn - $contextPosn"/>
+			<xsl:variable name="length" 
+					select="$distance * $vSpacing"/>
+			
+			<path xsl:use-attribute-sets="connection"
+					d="M 0 0 L -{62 * ($distance - 1)} {$length div 2} L 0 {$length}"/>
+		</xsl:for-each>
 	</xsl:template>
 
 
 	<!-- Output port. -->
-	<xsl:template match="p:output" mode="p:ports">
+	<xsl:template match="p:input" mode="p:ports">
 		<!--<rect class="port output" x="20" y="-32" width="20" height="32"/>-->
 	</xsl:template>
 	
