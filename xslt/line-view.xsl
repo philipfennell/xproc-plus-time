@@ -27,7 +27,7 @@
 	<xsl:attribute-set name="step">
 		<xsl:attribute name="fill">#FFFFFF</xsl:attribute>
 		<xsl:attribute name="stroke">#000000</xsl:attribute>
-		<xsl:attribute name="stroke-width">1px</xsl:attribute>
+		<xsl:attribute name="stroke-width">2px</xsl:attribute>
 	</xsl:attribute-set>
 	
 	<xsl:attribute-set name="labels">
@@ -49,8 +49,8 @@
 	
 	<xsl:attribute-set name="connection">
 		<xsl:attribute name="fill">none</xsl:attribute>
-		<xsl:attribute name="stroke">#000000</xsl:attribute>
-		<xsl:attribute name="stroke-width">1px</xsl:attribute>
+		<xsl:attribute name="stroke">#666666</xsl:attribute>
+		<xsl:attribute name="stroke-width">2px</xsl:attribute>
 	</xsl:attribute-set>
 	
 	
@@ -121,21 +121,29 @@
 			<xsl:variable name="length" 
 					select="$distance * $vSpacing"/>
 			
-			<!-- M0,0 c-86,0 -124,38 -124,100 l0,100 c0,62 38,100 124,100 -->
+			<!-- m0,0 c-62,0 -62,0 -62,100 l0,100 c0,100 0,100 62,100 -->
+			<!-- m0,0 c-100,0 -100,100 -100,100 l0,100 c0,100 100,100 100,100 -->
 			
 			<xsl:variable name="pathData" as="xs:string"
 				select="if ($distance gt 1) then 
 						string-join(
 							(
-								'M0,0',
-								concat('c', -62 * ($distance - 1), ',0'), 
-								concat(-62 * ($distance - 1), ',', $length),
-								concat('0,', $length)
-							), ' ') 
-						else 
-							concat('M0,0 L0,', $length)"/>
+								'm0,0',
+								concat('c', -1 * 62, ',0'), 
+								concat(-1 * 62, ',', 0),
+								concat(-1 * 62, ',', $vSpacing),
+								concat('l0,', $vSpacing * ($distance - 2)),
+								concat('c0,', $vSpacing), 
+								concat(0, ',', $vSpacing),
+								concat(62, ',', $vSpacing)
+							),
+						' ') 
+					else 
+						concat('M0,0 L0,', $length)"/>
 				
-			<path xsl:use-attribute-sets="connection" d="{$pathData}"/>
+			<path id="{generate-id()}" xsl:use-attribute-sets="connection" d="{$pathData}">
+				<!--<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{generate-id()}.mouseover" end="{generate-id()}.mouseout"/>-->
+			</path>
 			
 		</xsl:for-each>
 	</xsl:template>
