@@ -20,6 +20,10 @@
 		</p:input>
 	</p:xslt>
 	
+	<p:add-attribute name="add-id" match="/*" attribute-name="id" attribute-value="foo"/>
+	
+	<p:identity name="identity"/>
+	
 	<p:validate-with-xml-schema name="validate-xhtml">
 		<p:input port="schema">
 			<p:document href="xhtml.xsd"/>
