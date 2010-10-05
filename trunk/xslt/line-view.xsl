@@ -44,7 +44,9 @@
 	</xsl:attribute-set>
 	
 	<xsl:attribute-set name="line">
+		<xsl:attribute name="stroke-width">1px</xsl:attribute>
 		<xsl:attribute name="stroke-dasharray">2,2</xsl:attribute>
+		<xsl:attribute name="stroke">#000000</xsl:attribute>
 	</xsl:attribute-set>
 	
 	<xsl:attribute-set name="connection">
