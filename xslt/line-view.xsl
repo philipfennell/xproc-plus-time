@@ -26,8 +26,8 @@
 	
 	<xsl:attribute-set name="step">
 		<xsl:attribute name="fill">#FFFFFF</xsl:attribute>
-		<xsl:attribute name="stroke">#000000</xsl:attribute>
-		<xsl:attribute name="stroke-width">2px</xsl:attribute>
+		<xsl:attribute name="stroke">#999999</xsl:attribute>
+		<xsl:attribute name="stroke-width">3px</xsl:attribute>
 	</xsl:attribute-set>
 	
 	<xsl:attribute-set name="labels">
@@ -49,8 +49,8 @@
 	
 	<xsl:attribute-set name="connection">
 		<xsl:attribute name="fill">none</xsl:attribute>
-		<xsl:attribute name="stroke">#666666</xsl:attribute>
-		<xsl:attribute name="stroke-width">2px</xsl:attribute>
+		<xsl:attribute name="stroke">#999999</xsl:attribute>
+		<xsl:attribute name="stroke-width">3px</xsl:attribute>
 	</xsl:attribute-set>
 	
 	
