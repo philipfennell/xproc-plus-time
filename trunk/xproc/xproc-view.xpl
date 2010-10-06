@@ -27,8 +27,14 @@
 		</p:input>
 	</p:xslt>
 	
+	<p:store href="logs/parsed-pipeline.xpl" encoding="utf-8" indent="true"
+			media-type="application/xproc+xml" method="xml"/>
+	
 	<p:xslt name="view">
 		<p:documentation>Generate a view.</p:documentation>
+		<p:input port="source">
+			<p:pipe port="result" step="visible-steps"/>
+		</p:input>
 		<p:input port="stylesheet">
 			<p:document href="xslt/line-view.xsl"/>
 		</p:input>

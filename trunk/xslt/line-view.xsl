@@ -12,7 +12,7 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		exclude-result-prefixes="c cx ml p svg xlink xpt xs xsi" 
+		exclude-result-prefixes="c css cx ml p svg xlink xpt xs xsi" 
 		version="2.0">
 	
 	
@@ -70,9 +70,26 @@
 		<svg version="1.1">
 			<xsl:call-template name="svg:dimensions"/>
 			
-			<g transform="translate(168,0)">
+			<g transform="translate(242,0)">
+				
+				<g id="{@name}" xsl:use-attribute-sets="step"
+						transform="{concat('translate(0, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
+					
+					<xsl:apply-templates select="p:input" mode="p:ports"/>
+					
+					<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
+						<text x="0" y="-7">
+							<xsl:value-of select="name()"/>
+						</text>
+						<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
+						<circle xsl:use-attribute-sets="step" cx="180" cy="0" r="6"/>
+						<text xsl:use-attribute-sets="name" x="0" y="16">
+							<xsl:value-of select="(@name, 'anonymous')[1]"/>
+						</text>
+					</g>
+				</g>
+				
 				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
-				<!--<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps2"/>-->
 			</g>
 		</svg>
 	</xsl:template>
@@ -80,39 +97,31 @@
 
 	<!-- Ignore unsupported steps. -->
 	<xsl:template match="*" mode="p:steps">
-		<g xsl:use-attribute-sets="step"
-				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
+		<g id="{@name}" xsl:use-attribute-sets="step"
+				transform="{concat('translate(0, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 2), ')')}">
 			
 			<xsl:apply-templates select="p:pipeinfo/p:output" mode="p:ports"/>
 			
-			<g xsl:use-attribute-sets="labels">
-				<text x="12" y="-7">
+			<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
+				<text x="0" y="-7">
 					<xsl:value-of select="name()"/>
 				</text>
 				<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
-				<circle xsl:use-attribute-sets="step" cx="0" cy="0" r="6"/>
-				<text xsl:use-attribute-sets="name" x="12" y="16">
+				<circle xsl:use-attribute-sets="step" cx="180" cy="0" r="6"/>
+				<text xsl:use-attribute-sets="name" x="0" y="16">
 					<xsl:value-of select="(@name, 'anonymous')[1]"/>
 				</text>
 			</g>
 		</g>
 	</xsl:template>
-	
-	
-	<!-- Ignore unsupported steps. -->
-	<xsl:template match="*" mode="p:steps2">
-		<g xsl:use-attribute-sets="step"
-				transform="{concat('translate(62, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
-			<circle xsl:use-attribute-sets="step" cx="0" cy="0" r="6"/>
-		</g>
-	</xsl:template>
 
 
 	<!-- Input port. -->
-	<xsl:template match="p:output" mode="p:ports" priority="1">
-		<xsl:variable name="parentStep" as="element()" select="../.."/>
+	<xsl:template match="p:input | p:output" mode="p:ports" priority="1">
+		<xsl:variable name="parentStep" as="element()" select="if (exists(self::p:input)) then .. else ../.."/>
 		<xsl:variable name="boundStep" as="element()*" 
-				select="$parentStep/following-sibling::*[@css:visibility = 'visible'][p:input/p:pipe/@step = $parentStep/@name]"/>
+				select="//*[@css:visibility = 'visible'][p:input/p:pipe/@step = $parentStep/@name]"/>
+		
 		<xsl:for-each select="$boundStep">
 			<xsl:variable name="contextPosn" as="xs:integer"
 					select="xs:integer(number($parentStep/@xpt:position))"/>
@@ -123,27 +132,24 @@
 			<xsl:variable name="length" 
 					select="$distance * $vSpacing"/>
 			
-			<!-- m0,0 c-62,0 -62,0 -62,100 l0,100 c0,100 0,100 62,100 -->
-			<!-- m0,0 c-100,0 -100,100 -100,100 l0,100 c0,100 100,100 100,100 -->
-			
 			<xsl:variable name="pathData" as="xs:string"
 				select="if ($distance gt 1) then 
 						string-join(
 							(
 								'm0,0',
-								concat('c', -1 * 62, ',0'), 
-								concat(-1 * 62, ',', 0),
-								concat(-1 * 62, ',', $vSpacing),
+								concat('c', 1 * 62, ',0'), 
+								concat(1 * 62, ',', 0),
+								concat(1 * 62, ',', $vSpacing),
 								concat('l0,', $vSpacing * ($distance - 2)),
 								concat('c0,', $vSpacing), 
 								concat(0, ',', $vSpacing),
-								concat(62, ',', $vSpacing)
+								concat(-62, ',', $vSpacing)
 							),
 						' ') 
 					else 
 						concat('M0,0 L0,', $length)"/>
-				
-			<path id="{generate-id()}" xsl:use-attribute-sets="connection" d="{$pathData}">
+			<!-- id="{generate-id()}" -->
+			<path xsl:use-attribute-sets="connection" d="{$pathData}">
 				<!--<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{generate-id()}.mouseover" end="{generate-id()}.mouseout"/>-->
 			</path>
 			
@@ -163,7 +169,7 @@
 	<!--  -->
 	<xsl:template name="svg:dimensions" as="attribute()*">
 		<xsl:attribute name="width" select="'1024'"/>
-		<xsl:attribute name="height" select="$vSpacing * (count(*[xpt:isVisible(.)]) + 1)"/>
+		<xsl:attribute name="height" select="$vSpacing * (count(*[xpt:isVisible(.)]) + 3)"/>
 	</xsl:template>
 	
 	
