@@ -18,16 +18,27 @@
 	<p:import href="xproc/library-1.0.xpl"/>
 	
 	
-	<p:wrap-sequence wrapper="c:body">
+	<p:wrap-sequence name="foo" wrapper="c:body">
 		<p:documentation>Wrap the ingestion record.</p:documentation>
 		<p:input port="source" select="/ingestionRecord/match_data"/>
 	</p:wrap-sequence>
 	
-	<p:add-attribute match="/c:body" attribute-name="content-type" attribute-value="application/xml"/>
+	<!--<p:sink/>-->
+	
+	<p:add-attribute match="/c:body" attribute-name="content-type" attribute-value="application/xml">
+		<!--<p:input port="source">
+			<p:pipe port="source" step="build-request"/>
+		</p:input>-->
+	</p:add-attribute>
 	
 	<p:add-attribute match="/c:body" attribute-name="encoding" attribute-value="utf-8"/>
 	
+	<!--<p:sink/>-->
+	
 	<p:wrap-sequence wrapper="c:request">
+		<!--<p:input port="source">
+			<p:pipe port="result" step="foo"/>
+		</p:input>-->
 		<p:documentation>Build the request.</p:documentation>
 	</p:wrap-sequence>
 	

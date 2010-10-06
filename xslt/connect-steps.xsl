@@ -39,6 +39,18 @@
 	</xsl:template>
 	
 	
+	<!-- Connects an pipeline's implicitly bound output port with the result port
+		 of the last step in the pipeline. -->
+	<xsl:template match="p:output[not(*)]" mode="p:connect">
+		<xsl:copy>
+			<xsl:copy-of select="@*"/>
+			<xsl:variable name="lastStep" as="element()" 
+					select="parent::p:declare-step/*[last()]"/>
+			<p:pipe port="result" step="{($lastStep/@name, generate-id($lastStep))[1]}"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	
 	<!--  -->
 	<xsl:template match="element()" mode="p:connect">
 		<xsl:param name="p:stepDecls" as="element(p:library)" tunnel="yes"/>
@@ -107,7 +119,8 @@
 	</xsl:template>
 	
 	
-	<!--  -->
+	<!-- Embed the declared output ports of a step in a pipeinfo element to
+		 ensure the XProc processor cannot see them. -->
 	<xsl:template match="p:output" mode="p:ports" priority="1">
 		<p:pipeinfo>
 			<xsl:copy copy-namespaces="no">
@@ -118,7 +131,8 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="p:data | p:document | p:documentation | p:empty | p:import | p:inline | p:input | p:log | p:option | p:output | p:pipe | p:pipeinfo | p:serialization" mode="p:connect">
+	<!-- Replicate these nodes. -->
+	<xsl:template match="p:data | p:document | p:documentation | p:empty | p:import | p:inline | p:input | p:log | p:option | p:pipe | p:pipeinfo | p:serialization" mode="p:connect">
 		<xsl:copy-of select="."/>
 	</xsl:template>
 </xsl:transform>

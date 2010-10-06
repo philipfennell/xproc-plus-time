@@ -82,7 +82,8 @@
 							<xsl:value-of select="name()"/>
 						</text>
 						<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
-						<circle xsl:use-attribute-sets="step" cx="180" cy="0" r="6"/>
+						<!--<circle xsl:use-attribute-sets="step" cx="180" cy="0" r="6"/>-->
+						<rect xsl:use-attribute-sets="step" x="174" y="-6" width="12" height="12" rx="2" ry="2"/>
 						<text xsl:use-attribute-sets="name" x="0" y="16">
 							<xsl:value-of select="(@name, 'anonymous')[1]"/>
 						</text>
@@ -90,6 +91,11 @@
 				</g>
 				
 				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
+				
+				<g transform="translate(0, {$vSpacing * (count(*[xpt:isVisible(.)]) + 2)})">
+					<path xsl:use-attribute-sets="connection" d="m0,0 l0,-94"/>
+					<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2"/>
+				</g>
 			</g>
 		</svg>
 	</xsl:template>
