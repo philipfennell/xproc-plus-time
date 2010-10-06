@@ -9,7 +9,7 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		exclude-result-prefixes="c cx ml p xs xsi" 
+		exclude-result-prefixes="xs xsi" 
 		version="2.0">
 	
 	<xsl:output encoding="UTF-8" indent="yes" media-type="application/xproc+xml" method="xml"/>
@@ -27,8 +27,8 @@
 	</xsl:template>
 	
 	
-	<!-- Steps that should be visible have their xpt:visible attribute set to 
-		 true(). -->
+	<!-- Steps that should be visible have their css:visibility attribute set to 
+		 'visible'. -->
 	<xsl:template match="*" mode="p:visible">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
@@ -39,10 +39,20 @@
 	
 	
 	<!--  -->
+	<xsl:template match="p:declare-step" mode="xpt:position" priority="1">
+		<xsl:copy copy-namespaces="yes">
+			<xsl:copy-of select="@*"/>
+			<xsl:attribute name="xpt:position" select="1"/>
+			<xsl:apply-templates select="* | text()" mode="#current"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	
+	<!--  -->
 	<xsl:template match="*[@css:visibility]" mode="xpt:position">
 		<xsl:copy copy-namespaces="no">
 			<xsl:copy-of select="@*"/>
-			<xsl:attribute name="xpt:position" select="count(preceding-sibling::*[@css:visibility = 'visible']) + 1"/>
+			<xsl:attribute name="xpt:position" select="count(preceding-sibling::*[@css:visibility = 'visible']) + 2"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>

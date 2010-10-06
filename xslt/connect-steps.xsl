@@ -8,14 +8,14 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		exclude-result-prefixes="c cx ml p xpt xs xsi" 
+		exclude-result-prefixes="xs xsi" 
 		version="2.0">
 	
 	<xsl:output encoding="UTF-8" indent="yes" media-type="application/xproc+xml" method="xml"/>
 	
-	<xsl:include href="common.xsl"/>
+	<!--<xsl:include href="common.xsl"/>-->
 	
-	
+	<xsl:strip-space elements="*"/>
 	
 	
 	<!--  -->
@@ -30,7 +30,9 @@
 	
 	<!--  -->
 	<xsl:template match="p:declare-step" mode="p:connect">
-		<xsl:copy>
+		<xsl:copy copy-namespaces="yes">
+			<xsl:namespace name="c">http://www.w3.org/ns/xproc-step</xsl:namespace>
+			<xsl:namespace name="xpt">http://xproc-plus-time.googlecode.com</xsl:namespace>
 			<xsl:copy-of select="@*"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
@@ -88,10 +90,16 @@
 							select="('p:input', 'p:output', 'p:option', 'p:log', 'p:serialization', 'p:declare-step', 'p:pipeline', 'p:import')"/>
 					<xsl:variable name="precedingStep" as="element()?" 
 							select="$contextStep/preceding-sibling::*[not(name() = $nonStepNames)][1]"/>
-					<xsl:if test="exists($precedingStep)">
-						<p:pipe port="result" 
-							step="{($precedingStep/@name, generate-id($precedingStep))[1]}"/>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="exists($precedingStep)">
+							<p:pipe port="result" 
+									step="{($precedingStep/@name, generate-id($precedingStep))[1]}"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<p:pipe port="source" 
+									step="{$contextStep/parent::p:declare-step/@name}"/>
+						</xsl:otherwise>
+					</xsl:choose>
 					
 				</xsl:otherwise>
 			</xsl:choose>
@@ -109,4 +117,8 @@
 		</p:pipeinfo>
 	</xsl:template>
 	
+	
+	<xsl:template match="p:data | p:document | p:documentation | p:empty | p:import | p:inline | p:input | p:log | p:option | p:output | p:pipe | p:pipeinfo | p:serialization" mode="p:connect">
+		<xsl:copy-of select="."/>
+	</xsl:template>
 </xsl:transform>
