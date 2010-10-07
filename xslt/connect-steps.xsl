@@ -79,7 +79,6 @@
 				select="$contextPorts[@port = current()/@port]"/>
 		
 		<xsl:copy copy-namespaces="no">
-			<xsl:attribute name="xml:id" select="generate-id()"/>
 			<xsl:copy-of select="@* except (@sequence, @primary)"/>
 			<xsl:for-each select="$contextPort/@*">
 				<xsl:attribute name="{name()}" select="."/>
@@ -124,7 +123,6 @@
 	<xsl:template match="p:output" mode="p:ports" priority="1">
 		<p:pipeinfo>
 			<xsl:copy copy-namespaces="no">
-				<xsl:attribute name="xml:id" select="generate-id()"/>
 				<xsl:copy-of select="@*"/>
 			</xsl:copy>
 		</p:pipeinfo>
