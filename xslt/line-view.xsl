@@ -72,28 +72,21 @@
 			
 			<g transform="translate(242,0)">
 				
-				<g id="{@name}" xsl:use-attribute-sets="step"
-						transform="{concat('translate(0, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 1), ')')}">
-					
-					<xsl:apply-templates select="p:input" mode="p:ports"/>
-					
-					<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
-						<text x="0" y="-7">
-							<xsl:value-of select="name()"/>
-						</text>
-						<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
-						<!--<circle xsl:use-attribute-sets="step" cx="180" cy="0" r="6"/>-->
+				<xsl:call-template name="xpt:step">
+					<xsl:with-param name="stepSymbol" as="element()">
 						<rect xsl:use-attribute-sets="step" x="174" y="-6" width="12" height="12" rx="2" ry="2"/>
-						<text xsl:use-attribute-sets="name" x="0" y="16">
-							<xsl:value-of select="(@name, 'anonymous')[1]"/>
-						</text>
-					</g>
-				</g>
-				
+					</xsl:with-param>
+				</xsl:call-template>
+								
 				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
 				
-				<g transform="translate(0, {$vSpacing * (count(*[xpt:isVisible(.)]) + 2)})">
-					<path xsl:use-attribute-sets="connection" d="m0,0 l0,-94"/>
+				<xsl:variable name="lastStep" as="element()" select="descendant::element()[@css:visibility = 'visible'][not(exists(following-sibling::*[@css:visibility = 'visible']))]"/>
+				<g transform="translate(0, {($lastStep/@xpt:position + 1) * $vSpacing})">
+					<path id="{generate-id()}" xsl:use-attribute-sets="connection" d="m0,0 l0,-{$vSpacing - 6}">
+						<xsl:call-template name="xpt:animateConnection">
+							<xsl:with-param name="connectionId" select="xs:ID(generate-id())"/>
+						</xsl:call-template>
+					</path>
 					<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2"/>
 				</g>
 			</g>
@@ -103,27 +96,40 @@
 
 	<!-- Ignore unsupported steps. -->
 	<xsl:template match="*" mode="p:steps">
+		<xsl:call-template name="xpt:step">
+			<xsl:with-param name="stepSymbol" as="element()">
+				<circle xsl:use-attribute-sets="step" cx="180" cy="0" r="6"/>
+			</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:template name="xpt:step">
+		<xsl:param name="stepSymbol" as="element()"/>
+		
 		<g id="{@name}" xsl:use-attribute-sets="step"
-				transform="{concat('translate(0, ', $vSpacing * (count(preceding-sibling::*[xpt:isVisible(.)]) + 2), ')')}">
+				transform="{concat('translate(0, ', $vSpacing * @xpt:position, ')')}">
 			
-			<xsl:apply-templates select="p:pipeinfo/p:output" mode="p:ports"/>
+			<xsl:apply-templates select="if (self::p:declare-step) then p:input else p:pipeinfo/p:output" mode="p:ports"/>
 			
 			<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
 				<text x="0" y="-7">
 					<xsl:value-of select="name()"/>
 				</text>
 				<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
-				<circle xsl:use-attribute-sets="step" cx="180" cy="0" r="6"/>
+				<xsl:copy-of select="$stepSymbol"/>
 				<text xsl:use-attribute-sets="name" x="0" y="16">
 					<xsl:value-of select="(@name, 'anonymous')[1]"/>
 				</text>
 			</g>
 		</g>
 	</xsl:template>
-
+	
 
 	<!-- Input port. -->
 	<xsl:template match="p:input | p:output" mode="p:ports" priority="1">
+		<xsl:variable name="contextPort" as="element()" select="."/>
 		<xsl:variable name="parentStep" as="element()" select="if (exists(self::p:input)) then .. else ../.."/>
 		<xsl:variable name="boundStep" as="element()*" 
 				select="//*[@css:visibility = 'visible'][p:input/p:pipe/@step = $parentStep/@name]"/>
@@ -143,7 +149,7 @@
 						string-join(
 							(
 								'm0,0',
-								concat('c', 1 * 62, ',0'), 
+								concat('c', '0,', 1 * 62), 
 								concat(1 * 62, ',', 0),
 								concat(1 * 62, ',', $vSpacing),
 								concat('l0,', $vSpacing * ($distance - 2)),
@@ -154,14 +160,26 @@
 						' ') 
 					else 
 						concat('M0,0 L0,', $length)"/>
-			<!-- id="{generate-id()}" -->
-			<path xsl:use-attribute-sets="connection" d="{$pathData}">
-				<!--<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{generate-id()}.mouseover" end="{generate-id()}.mouseout"/>-->
-			</path>
+			<xsl:variable name="pathId" as="xs:ID" select="xs:ID(generate-id(p:input[p:pipe/@step = $parentStep/@name]))"/>
 			
+			<path id="{$pathId}" xsl:use-attribute-sets="connection" d="{$pathData}">
+				<xsl:call-template name="xpt:animateConnection">
+					<xsl:with-param name="connectionId" select="$pathId"/>
+				</xsl:call-template>
+			</path>
 		</xsl:for-each>
 	</xsl:template>
-
+	
+	
+	<!-- Animate the parent primitive by changing it colour and expanding its
+		 stroke width while the mouse is 'hovering' over it. -->
+	<xsl:template name="xpt:animateConnection">
+		<xsl:param name="connectionId" as="xs:ID"/>
+		
+		<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{$connectionId}.mouseover" end="{$connectionId}.mouseout"/>
+		<set attributeName="stroke-width" to="5" attributeType="CSS" begin="{$connectionId}.mouseover" end="{$connectionId}.mouseout"/>
+	</xsl:template>
+	
 
 	<!-- Output port. -->
 	<xsl:template match="p:input" mode="p:ports">
