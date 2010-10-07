@@ -1,0 +1,296 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1024" height="1400">
+   <g transform="translate(242,0)">
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="build-request"
+         transform="translate(0, 100)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e10" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e10.mouseover"
+                 end="d13e10.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e10.mouseover"
+                 end="d13e10.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:declare-step</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <rect fill="#FFFFFF" stroke="#999999" stroke-width="3px" x="174" y="-6" width="12"
+                  height="12"
+                  rx="2"
+                  ry="2"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">build-request</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="foo"
+         transform="translate(0, 200)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e20" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e20.mouseover"
+                 end="d13e20.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e20.mouseover"
+                 end="d13e20.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:wrap-sequence</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">foo</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="d4e27"
+         transform="translate(0, 300)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e25" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e25.mouseover"
+                 end="d13e25.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e25.mouseover"
+                 end="d13e25.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:add-attribute</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">d4e27</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="d4e32"
+         transform="translate(0, 400)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e30" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e30.mouseover"
+                 end="d13e30.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e30.mouseover"
+                 end="d13e30.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:add-attribute</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">d4e32</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="d4e36"
+         transform="translate(0, 500)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e40" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e40.mouseover"
+                 end="d13e40.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e40.mouseover"
+                 end="d13e40.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:wrap-sequence</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">d4e36</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="d4e44"
+         transform="translate(0, 600)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e45" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e45.mouseover"
+                 end="d13e45.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e45.mouseover"
+                 end="d13e45.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:add-attribute</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">d4e44</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="d4e46"
+         transform="translate(0, 700)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e50" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e50.mouseover"
+                 end="d13e50.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e50.mouseover"
+                 end="d13e50.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:add-attribute</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">d4e46</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="request"
+         transform="translate(0, 800)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e58" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e58.mouseover"
+                 end="d13e58.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e58.mouseover"
+                 end="d13e58.mouseout"/>
+         </path>
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e81"
+               d="m0,0 c0,62 62,0 62,100 l0,100 c0,100 0,100 -62,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e81.mouseover"
+                 end="d13e81.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e81.mouseover"
+                 end="d13e81.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:identity</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">request</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="response"
+         transform="translate(0, 900)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e66" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e66.mouseover"
+                 end="d13e66.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e66.mouseover"
+                 end="d13e66.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:http-request</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">response</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="d4e57"
+         transform="translate(0, 1000)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e76" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e76.mouseover"
+                 end="d13e76.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e76.mouseover"
+                 end="d13e76.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:wrap-sequence</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">d4e57</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="d4e63"
+         transform="translate(0, 1100)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e89" d="M0,0 L0,100">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS"
+                 begin="d13e89.mouseover"
+                 end="d13e89.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS"
+                 begin="d13e89.mouseover"
+                 end="d13e89.mouseout"/>
+         </path>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:insert</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">d4e63</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="d4e71"
+         transform="translate(0, 1200)">
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:wrap-sequence</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" cx="180" cy="0" r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">d4e71</text>
+         </g>
+      </g>
+      <g transform="translate(0, 1300)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d13e1" d="m0,0 l0,-94">
+            <set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="d13e1.mouseover"
+                 end="d13e1.mouseout"/>
+            <set attributeName="stroke-width" to="5" attributeType="CSS" begin="d13e1.mouseover"
+                 end="d13e1.mouseout"/>
+         </path>
+         <rect fill="#FFFFFF" stroke="#999999" stroke-width="3px" x="-6" y="-6" width="12"
+               height="12"
+               rx="2"
+               ry="2"/>
+      </g>
+   </g>
+</svg>
