@@ -23,6 +23,7 @@
 	<xsl:strip-space elements="*"/>
 
 	<xsl:variable name="vSpacing" as="xs:integer" select="100"/>
+	<xsl:variable name="hSpacing" as="xs:integer" select="xs:integer(ceiling(0.618 * 100))"/>
 	
 	<xsl:attribute-set name="step">
 		<xsl:attribute name="fill">#FFFFFF</xsl:attribute>
@@ -143,24 +144,31 @@
 					select="$boundStepPosn - $contextPosn"/>
 			<xsl:variable name="length" 
 					select="$distance * $vSpacing"/>
+			<xsl:variable name="boundInputPort" as="element()?" select="p:input[p:pipe/@step = $parentStep/@name]"/>
 			
+			<!-- Set the control point that governs the direction of the start of the path. -->
+			<xsl:variable name="directionOut" as="xs:string" select="if (xs:boolean($contextPort/@primary) = true()) then xpt:toSouth() else xpt:toEast()"/>
+			<!-- Set the control point that governs the direction of the end of the path. -->
+			<xsl:variable name="directionIn" as="xs:string" select="if (xs:boolean($contextPort/@primary) = true()) then xpt:fromNorth() else xpt:fromEast()"/>
 			<xsl:variable name="pathData" as="xs:string"
 				select="if ($distance gt 1) then 
 						string-join(
 							(
 								'm0,0',
-								concat('c', '0,', 1 * 62), 
-								concat(1 * 62, ',', 0),
-								concat(1 * 62, ',', $vSpacing),
+								concat('c', xpt:toSouth()), 
+								concat(62, ',', 0),
+								concat(62, ',', $vSpacing),
+								
 								concat('l0,', $vSpacing * ($distance - 2)),
-								concat('c0,', $vSpacing), 
-								concat(0, ',', $vSpacing),
-								concat(-62, ',', $vSpacing)
+								
+								concat('c', 0, ',', $vSpacing), 
+								xpt:fromEast(),
+								concat(-1 * $hSpacing, ',', $vSpacing)
 							),
 						' ') 
 					else 
 						concat('M0,0 L0,', $length)"/>
-			<xsl:variable name="pathId" as="xs:ID" select="xs:ID(generate-id(p:input[p:pipe/@step = $parentStep/@name]))"/>
+			<xsl:variable name="pathId" as="xs:ID" select="xs:ID(generate-id($boundInputPort))"/>
 			
 			<path id="{$pathId}" xsl:use-attribute-sets="connection" d="{$pathData}">
 				<xsl:call-template name="xpt:highlightConnection">
@@ -169,6 +177,26 @@
 			</path>
 		</xsl:for-each>
 	</xsl:template>
+	
+	
+	<xsl:function name="xpt:toEast" as="xs:string">
+		<xsl:value-of select="string-join((string($hSpacing * 1), string($vSpacing * 0)), ',')"/>
+	</xsl:function>
+	
+	
+	<xsl:function name="xpt:toSouth" as="xs:string">
+		<xsl:value-of select="string-join((string($hSpacing * 0), string($vSpacing * 1)), ',')"/>
+	</xsl:function>
+	
+	
+	<xsl:function name="xpt:fromEast" as="xs:string">
+		<xsl:value-of select="string-join((string($hSpacing * 0), string($vSpacing * 1)), ',')"/>
+	</xsl:function>
+	
+	
+	<xsl:function name="xpt:fromNorth" as="xs:string">
+		<xsl:value-of select="string-join((string($hSpacing * -1), string($vSpacing * 0)), ',')"/>
+	</xsl:function>
 	
 	
 	<!-- Highlight the parent primitive by changing its colour and expanding its
