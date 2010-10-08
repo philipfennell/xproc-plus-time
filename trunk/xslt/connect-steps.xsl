@@ -8,7 +8,7 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		exclude-result-prefixes="xs xsi" 
+		exclude-result-prefixes="cx ml xs xsi" 
 		version="2.0">
 	
 	<xsl:output encoding="UTF-8" indent="yes" media-type="application/xproc+xml" method="xml"/>
@@ -79,19 +79,23 @@
 				select="$contextPorts[@port = current()/@port]"/>
 		
 		<xsl:copy copy-namespaces="no">
-			<xsl:copy-of select="@* except (@sequence, @primary)"/>
+			<xsl:copy-of select="@* except (@sequence, @primary, @kind)"/>
 			<xsl:for-each select="$contextPort/@*">
 				<xsl:attribute name="{name()}" select="."/>
 			</xsl:for-each>
-			<xsl:if test="@sequence | @primary">
-				<p:pipeinfo>
-					<xsl:for-each select="(@sequence, @primary)">
-						<xsl:element name="p:{name()}" namespace="http://www.w3.org/ns/xproc">
-							<xsl:value-of select="current()"/>
-						</xsl:element>
-					</xsl:for-each>
-				</p:pipeinfo>
-			</xsl:if>
+			
+			<p:pipeinfo>
+				<xsl:element name="p:kind">
+					<xsl:value-of select="(@kind, 'document')[1]"/>
+				</xsl:element>
+				<xsl:element name="p:primary">
+					<xsl:value-of select="(@primary, if (count(../p:input) = 1) then true() else false())[1]"/>
+				</xsl:element>
+				<xsl:element name="p:sequence">
+					<xsl:value-of select="(@sequence, false())[1]"/>
+				</xsl:element>
+			</p:pipeinfo>
+			
 			<xsl:choose>
 				<xsl:when test="$contextPort/*">
 					<xsl:copy-of select="$contextPort/*"/>
@@ -123,7 +127,9 @@
 	<xsl:template match="p:output" mode="p:ports" priority="1">
 		<p:pipeinfo>
 			<xsl:copy copy-namespaces="no">
-				<xsl:copy-of select="@*"/>
+				<xsl:attribute name="port" select="@port"/>
+				<xsl:attribute name="primary" select="(@primary, if (count(../p:output) = 1) then true() else false())[1]"/>
+				<xsl:attribute name="sequence" select="(@sequence, false())[1]"/>
 			</xsl:copy>
 		</p:pipeinfo>
 	</xsl:template>
