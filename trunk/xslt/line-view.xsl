@@ -83,7 +83,7 @@
 				<xsl:variable name="lastStep" as="element()" select="descendant::element()[@css:visibility = 'visible'][not(exists(following-sibling::*[@css:visibility = 'visible']))]"/>
 				<g transform="translate(0, {($lastStep/@xpt:position + 1) * $vSpacing})">
 					<path id="{generate-id()}" xsl:use-attribute-sets="connection" d="m0,0 l0,-{$vSpacing - 6}">
-						<xsl:call-template name="xpt:animateConnection">
+						<xsl:call-template name="xpt:highlightConnection">
 							<xsl:with-param name="connectionId" select="xs:ID(generate-id())"/>
 						</xsl:call-template>
 					</path>
@@ -163,7 +163,7 @@
 			<xsl:variable name="pathId" as="xs:ID" select="xs:ID(generate-id(p:input[p:pipe/@step = $parentStep/@name]))"/>
 			
 			<path id="{$pathId}" xsl:use-attribute-sets="connection" d="{$pathData}">
-				<xsl:call-template name="xpt:animateConnection">
+				<xsl:call-template name="xpt:highlightConnection">
 					<xsl:with-param name="connectionId" select="$pathId"/>
 				</xsl:call-template>
 			</path>
@@ -171,19 +171,13 @@
 	</xsl:template>
 	
 	
-	<!-- Animate the parent primitive by changing it colour and expanding its
+	<!-- Highlight the parent primitive by changing its colour and expanding its
 		 stroke width while the mouse is 'hovering' over it. -->
-	<xsl:template name="xpt:animateConnection">
+	<xsl:template name="xpt:highlightConnection">
 		<xsl:param name="connectionId" as="xs:ID"/>
 		
 		<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{$connectionId}.mouseover" end="{$connectionId}.mouseout"/>
 		<set attributeName="stroke-width" to="5" attributeType="CSS" begin="{$connectionId}.mouseover" end="{$connectionId}.mouseout"/>
-	</xsl:template>
-	
-
-	<!-- Output port. -->
-	<xsl:template match="p:input" mode="p:ports">
-		<!--<rect class="port output" x="20" y="-32" width="20" height="32"/>-->
 	</xsl:template>
 	
 	
