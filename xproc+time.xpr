@@ -22,28 +22,6 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">xproc-viewer</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XPROC</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">examples/build-request.xpl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">connect-steps</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XML</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">xslt/connect-steps.xsl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
                                     <String xml:space="preserve">xproc-viewer transform-and-validate</String>
                                 </field>
                                 <field name="type">
@@ -55,35 +33,90 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">xproc-parser</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XPROC</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">xproc/xproc-parser.xpl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">extract-xproc-language-summary</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XPROC</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">xproc/extract-xproc-language-summary.xpl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">term-aggregation</String>
+                                    <String xml:space="preserve">xproc2svg</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XML</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">xproc/term-aggregation.xpl</String>
+                                    <String xml:space="preserve">xslt/xproc2svg.xsl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">check</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XPROC</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">results/connect-steps.xpl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">parse-xproc</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XML</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">xslt/visible-steps.xsl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">xproc-viewer transform-and-validate</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XPROC</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">examples/transform-and-validate.xpl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">check</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XPROC</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">results/xproc-parser.xpl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">parse-xproc</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XML</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">xslt/parse-xproc.xsl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">view</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XML</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">examples/match-businesses.xpl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">view</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XML</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/idr-pd/src/test/resources/xproc/match-businesses.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -94,106 +127,7 @@
                                     <String xml:space="preserve">XML</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">xslt/xproc2svg.xpl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">GRDDL_Test_Cases</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XSL</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../ConsultingTalks/XSLT_In_MarkLogic/examples/GRDDL_Test_Cases.xhtml</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">grddl-scenarios</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XSL</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../ConsultingTalks/XSLT_In_MarkLogic/examples/grddl-scenarios.xhtml</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">sandbox2</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandbox5.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">sandbox2</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandbox6.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">royaloak</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/Untitled4.xquery</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">sandbox</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/merchantdata/src/main/xquery/mi-loader/pending.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">filter-test</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XSL</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/test/results/filter-test.xml</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">filter-test</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XSL</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/test/results/filter-multiple_test.xml</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">filter-test</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XSL</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/test/results/filter-all_test.xml</String>
+                                    <String xml:space="preserve">xslt/xproc-to-svg2.xsl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -204,7 +138,7 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/merchantdata/src/main/xquery/humancrawl/admin/unlockall.xqy</String>
+                                    <String xml:space="preserve">../../Yell/examples/src/test/xquery/snippets2.xqy</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -215,18 +149,18 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/merchantdata/src/main/xquery/humancrawl/tmp/test.xqy</String>
+                                    <String xml:space="preserve">../../Yell/examples/src/test/xquery/snippets.xqy</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">schema2xforms test</String>
+                                    <String xml:space="preserve">sandbox3</String>
                                 </field>
                                 <field name="type">
-                                    <String xml:space="preserve">XSL</String>
+                                    <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/mir-cs/tmp/schema.xsd</String>
+                                    <String xml:space="preserve">../../Yell/java-ml-brach-updater/resources/xqy/process-document.xqy</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -237,29 +171,7 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/test/xquery/filtered-bluepill.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">filter-test</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XSL</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/test/results/filter-all_problems.xml</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">filter-test</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XSL</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/test/results/filter-multiple_problems.xml</String>
+                                    <String xml:space="preserve">../../Yell/examples/src/test/xquery/sandbox.xqy</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -270,7 +182,7 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/test/xquery/sandbox.xqy</String>
+                                    <String xml:space="preserve">../../Yell/examples/src/test/xquery/keyword-interpreter-data-directories.xqy</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -281,29 +193,7 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/test/xquery/values-query.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">sandbox2</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandbox.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">sandbox2</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandbox3.xqy</String>
+                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandox2.xqy</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -325,7 +215,29 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandox2.xqy</String>
+                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandbox3.xqy</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">sandbox2</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XQUERY</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandbox.xqy</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">sandbox2</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XQUERY</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/examples/test/xquery/values-query.xqy</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -336,7 +248,29 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/src/test/xquery/keyword-interpreter-data-directories.xqy</String>
+                                    <String xml:space="preserve">../../Yell/components/test/xquery/sandbox.xqy</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">filter-test</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XSL</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/test/results/filter-multiple_problems.xml</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">filter-test</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XSL</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/test/results/filter-all_problems.xml</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -347,29 +281,18 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/src/test/xquery/sandbox.xqy</String>
+                                    <String xml:space="preserve">../../Yell/components/test/xquery/filtered-bluepill.xqy</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">sandbox3</String>
+                                    <String xml:space="preserve">schema2xforms test</String>
                                 </field>
                                 <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
+                                    <String xml:space="preserve">XSL</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/java-ml-brach-updater/resources/xqy/process-document.xqy</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">test</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XQUERY</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/src/test/xquery/snippets.xqy</String>
+                                    <String xml:space="preserve">../../Yell/components/mir-cs/tmp/schema.xsd</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -380,7 +303,117 @@
                                     <String xml:space="preserve">XQUERY</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/examples/src/test/xquery/snippets2.xqy</String>
+                                    <String xml:space="preserve">../../Yell/merchantdata/src/main/xquery/humancrawl/tmp/test.xqy</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">test</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XQUERY</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/merchantdata/src/main/xquery/humancrawl/admin/unlockall.xqy</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">filter-test</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XSL</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/test/results/filter-all_test.xml</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">filter-test</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XSL</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/test/results/filter-multiple_test.xml</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">filter-test</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XSL</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/test/results/filter-test.xml</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">sandbox</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XQUERY</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/merchantdata/src/main/xquery/mi-loader/pending.xqy</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">royaloak</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XQUERY</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/examples/Untitled4.xquery</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">sandbox2</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XQUERY</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandbox6.xqy</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">sandbox2</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XQUERY</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/examples/test/xquery/sandbox5.xqy</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">grddl-scenarios</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XSL</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../ConsultingTalks/XSLT_In_MarkLogic/examples/grddl-scenarios.xhtml</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">GRDDL_Test_Cases</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XSL</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../ConsultingTalks/XSLT_In_MarkLogic/examples/GRDDL_Test_Cases.xhtml</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -391,95 +424,62 @@
                                     <String xml:space="preserve">XML</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">xslt/xproc-to-svg2.xsl</String>
+                                    <String xml:space="preserve">xslt/xproc2svg.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">view</String>
+                                    <String xml:space="preserve">term-aggregation</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XML</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/idr-pd/src/test/resources/xproc/match-businesses.xpl</String>
+                                    <String xml:space="preserve">xproc/term-aggregation.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">view</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XML</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">examples/match-businesses.xpl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">parse-xproc</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XML</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">xslt/parse-xproc.xsl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">check</String>
+                                    <String xml:space="preserve">extract-xproc-language-summary</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XPROC</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">results/xproc-parser.xpl</String>
+                                    <String xml:space="preserve">xproc/extract-xproc-language-summary.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">xproc-viewer transform-and-validate</String>
+                                    <String xml:space="preserve">xproc-parser</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XPROC</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">examples/transform-and-validate.xpl</String>
+                                    <String xml:space="preserve">xproc/xproc-parser.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">xproc2svg</String>
+                                    <String xml:space="preserve">connect-steps</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XML</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">xslt/xproc2svg.xsl</String>
+                                    <String xml:space="preserve">xslt/connect-steps.xsl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">parse-xproc</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">XML</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">xslt/visible-steps.xsl</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">check</String>
+                                    <String xml:space="preserve">xproc-viewer</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XPROC</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">results/connect-steps.xpl</String>
+                                    <String xml:space="preserve">examples/build-request.xpl</String>
                                 </field>
                             </scenarioAssociation>
                         </scenarioAssociation-array>
@@ -1889,7 +1889,7 @@
                                     <null/>
                                 </field>
                                 <field name="inputXSLURL">
-                                    <String xml:space="preserve">file:/C:/Documents%20and%20Settings/34959Ph/Projects/MarkLogic/XProc+Time/xproc/xproc-view.xpl</String>
+                                    <String xml:space="preserve">${pdu}/xproc/xproc-view.xpl</String>
                                 </field>
                                 <field name="inputXMLURL">
                                     <String xml:space="preserve"></String>
@@ -1983,16 +1983,7 @@
                                     <xprocOption-array/>
                                 </field>
                                 <field name="xprocParameters">
-                                    <xprocParameterPort-array>
-                                    <xprocParameterPort>
-                                    <field name="portName">
-                                    <String xml:space="preserve">*</String>
-                                    </field>
-                                    <field name="parameters">
-                                    <xprocParameter-array/>
-                                    </field>
-                                    </xprocParameterPort>
-                                    </xprocParameterPort-array>
+                                    <xprocParameterPort-array/>
                                 </field>
                                 <field name="advancedOptionsMap">
                                     <null/>
@@ -2693,51 +2684,7 @@
                                     <String xml:space="preserve">text/xml</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">results/result.svg</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">mirComplexTypes</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">text/sch</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/merchantdata/src/main/xquery/mir-admin/schemas/validate-xsd-structure.sch</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">mirComplexTypes</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">text/sch</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/merchantdata/src/main/xquery/mir-admin/schemas/mirComplexTypes.xsd</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">schema structure validation</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">text/sch</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/mir-cs/test/xsd/missing-type-references.xsd</String>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="name">
-                                    <String xml:space="preserve">schema structure validation</String>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">text/sch</String>
-                                </field>
-                                <field name="url">
-                                    <String xml:space="preserve">../../Yell/components/mir-cs/test/xsd/with-type-references.xsd</String>
+                                    <String xml:space="preserve">examples/process-diagram.svg</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -2753,13 +2700,57 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
+                                    <String xml:space="preserve">schema structure validation</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">text/sch</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/mir-cs/test/xsd/with-type-references.xsd</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">schema structure validation</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">text/sch</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/components/mir-cs/test/xsd/missing-type-references.xsd</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">mirComplexTypes</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">text/sch</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/merchantdata/src/main/xquery/mir-admin/schemas/mirComplexTypes.xsd</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">mirComplexTypes</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">text/sch</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">../../Yell/merchantdata/src/main/xquery/mir-admin/schemas/validate-xsd-structure.sch</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
                                     <String xml:space="preserve">svg</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">text/xml</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">examples/process-diagram.svg</String>
+                                    <String xml:space="preserve">results/result.svg</String>
                                 </field>
                             </scenarioAssociation>
                         </scenarioAssociation-array>
@@ -2776,61 +2767,6 @@
                                 </field>
                                 <field name="name">
                                     <String xml:space="preserve">Default_engine_scenario_name_1254902349626</String>
-                                </field>
-                            </validationScenario>
-                            <validationScenario>
-                                <field name="pairs">
-                                    <list>
-                                    <validationUnit>
-                                    <field name="validationType">
-                                    <validationUnitType>
-                                    <field name="validationInputType">
-                                    <String xml:space="preserve">text/xml</String>
-                                    </field>
-                                    </validationUnitType>
-                                    </field>
-                                    <field name="url">
-                                    <String xml:space="preserve">${currentFileURL}</String>
-                                    </field>
-                                    <field name="validationEngine">
-                                    <validationEngine>
-                                    <field name="engineType">
-                                    <String xml:space="preserve">Saxon-EE</String>
-                                    </field>
-                                    <field
-                                    name="allowsAutomaticValidation">
-                                    <Boolean xml:space="preserve">true</Boolean>
-                                    </field>
-                                    </validationEngine>
-                                    </field>
-                                    <field
-                                    name="allowAutomaticValidation">
-                                    <Boolean xml:space="preserve">true</Boolean>
-                                    </field>
-                                    <field name="extensions">
-                                    <null/>
-                                    </field>
-                                    <field name="validationSchema">
-                                    <validationUnitSchema>
-                                    <field name="dtdSchemaPublicID">
-                                    <null/>
-                                    </field>
-                                    <field name="type">
-                                    <Integer xml:space="preserve">2</Integer>
-                                    </field>
-                                    <field name="uri">
-                                    <String xml:space="preserve">file:/C:/Documents%20and%20Settings/34959Ph/Projects/MarkLogic/XProc+Time/schemas/svg/xsd/svg11.xsd</String>
-                                    </field>
-                                    </validationUnitSchema>
-                                    </field>
-                                    </validationUnit>
-                                    </list>
-                                </field>
-                                <field name="type">
-                                    <String xml:space="preserve">text/xml</String>
-                                </field>
-                                <field name="name">
-                                    <String xml:space="preserve">svg</String>
                                 </field>
                             </validationScenario>
                             <validationScenario>
@@ -2921,6 +2857,61 @@
                                 </field>
                                 <field name="name">
                                     <String xml:space="preserve">schema structure validation</String>
+                                </field>
+                            </validationScenario>
+                            <validationScenario>
+                                <field name="pairs">
+                                    <list>
+                                    <validationUnit>
+                                    <field name="validationType">
+                                    <validationUnitType>
+                                    <field name="validationInputType">
+                                    <String xml:space="preserve">text/xml</String>
+                                    </field>
+                                    </validationUnitType>
+                                    </field>
+                                    <field name="url">
+                                    <String xml:space="preserve">${currentFileURL}</String>
+                                    </field>
+                                    <field name="validationEngine">
+                                    <validationEngine>
+                                    <field name="engineType">
+                                    <String xml:space="preserve">Saxon-EE</String>
+                                    </field>
+                                    <field
+                                    name="allowsAutomaticValidation">
+                                    <Boolean xml:space="preserve">true</Boolean>
+                                    </field>
+                                    </validationEngine>
+                                    </field>
+                                    <field
+                                    name="allowAutomaticValidation">
+                                    <Boolean xml:space="preserve">true</Boolean>
+                                    </field>
+                                    <field name="extensions">
+                                    <null/>
+                                    </field>
+                                    <field name="validationSchema">
+                                    <validationUnitSchema>
+                                    <field name="dtdSchemaPublicID">
+                                    <null/>
+                                    </field>
+                                    <field name="type">
+                                    <Integer xml:space="preserve">2</Integer>
+                                    </field>
+                                    <field name="uri">
+                                    <String xml:space="preserve">file:/C:/Documents%20and%20Settings/34959Ph/Projects/MarkLogic/XProc+Time/schemas/svg/xsd/svg11.xsd</String>
+                                    </field>
+                                    </validationUnitSchema>
+                                    </field>
+                                    </validationUnit>
+                                    </list>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">text/xml</String>
+                                </field>
+                                <field name="name">
+                                    <String xml:space="preserve">svg</String>
                                 </field>
                             </validationScenario>
                         </validationScenario-array>
