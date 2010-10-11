@@ -13,6 +13,14 @@
 	
 	
 	
+	
+	<p:xslt name="augment-steps">
+		<p:documentation>Adds missing 'implied' information.</p:documentation>
+		<p:input port="stylesheet">
+			<p:document href="xslt/augment-steps.xsl"/>
+		</p:input>
+	</p:xslt>
+	
 	<p:xslt name="connect-steps">
 		<p:documentation>Makes step connections explicit.</p:documentation>
 		<p:input port="stylesheet">
