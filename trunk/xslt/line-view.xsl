@@ -96,13 +96,16 @@
 	
 	<!-- Ignore unsupported steps. -->
 	<xsl:template match="*" mode="p:steps">
-		<xsl:variable name="boundSteps" as="element()*" 
-				select="//*[@css:visibility = 'visible'][p:input/p:pipe/@step = current()/@name]"/>
+		<!--<xsl:variable name="boundSteps" as="element()*" 
+				select="//*[@css:visibility = 'visible'][p:input/p:pipe/@step = current()/@name]"/>-->
 		
 		<xsl:call-template name="xpt:step">
 			<xsl:with-param name="stepSymbol" as="element()">
-				<circle xsl:use-attribute-sets="step" cx="180" cy="0" r="6">
-					<!--<xsl:call-template name="xpt:highlightConnections"/>-->
+				<circle id="{@name}Symbol" xsl:use-attribute-sets="step" cx="180" cy="0" r="6">
+					<xsl:call-template name="xpt:highlightConnections">
+						<xsl:with-param name="connectionIds" as="xs:string*" 
+								select="tokenize(p:pipeinfo/p:output/@xpt:boundPorts, ' ')"/>
+					</xsl:call-template>
 				</circle>
 			</xsl:with-param>
 			<!--<xsl:with-param name="boundSteps" as="element()*" tunnel="yes"
@@ -181,6 +184,7 @@
 			<path id="{$pathId}" xsl:use-attribute-sets="connection" d="{$pathData}">
 				<xsl:call-template name="xpt:highlightConnection">
 					<xsl:with-param name="connectionIds" select="$connectionIds"/>
+					<xsl:with-param name="contextStepId" as="xs:string" select="$parentStep/@name"/>
 				</xsl:call-template>
 			</path>
 		</xsl:for-each>
@@ -211,11 +215,16 @@
 		 stroke width while the mouse is 'hovering' over it. -->
 	<xsl:template name="xpt:highlightConnection">
 		<xsl:param name="connectionIds" as="xs:string*"/>
+		<xsl:param name="contextStepId" as="xs:string?"/>
 		<xsl:variable name="start" select="string-join(for $con in $connectionIds return concat($con, '.mouseover'), ' ')"/>
 		<xsl:variable name="end" select="string-join(for $con in $connectionIds return concat($con, '.mouseout'), ' ')"/>
 		
-		<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{@name}.mouseover {$start}" end="{@name}.mouseout {$end}"/>
-		<set attributeName="stroke-width" to="5" attributeType="CSS" begin="{@name}.mouseover {$start}" end="{@name}.mouseout {$end}"/>
+		<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+				begin="{@name}Symbol.mouseover {$start} {$contextStepId}Symbol.mouseover" 
+				end="{@name}Symbol.mouseout {$end} {$contextStepId}Symbol.mouseout"/>
+		<set attributeName="stroke-width" to="5" attributeType="CSS" 
+				begin="{@name}Symbol.mouseover {$start} {$contextStepId}Symbol.mouseover" 
+				end="{@name}Symbol.mouseout {$end} {$contextStepId}Symbol.mouseout"/>
 	</xsl:template>
 	
 	
@@ -223,8 +232,8 @@
 	<xsl:template name="xpt:highlightConnections">
 		<xsl:param name="connectionIds" as="xs:string*"/>
 		
-		<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{@name}.mouseover" end="{@name}.mouseout"/>
-		<set attributeName="stroke-width" to="5" attributeType="CSS" begin="{@name}.mouseover" end="{@name}.mouseout"/>
+		<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{@name}Symbol.mouseover" end="{@name}Symbol.mouseout"/>
+		<set attributeName="stroke-width" to="5" attributeType="CSS" begin="{@name}Symbol.mouseover" end="{@name}Symbol.mouseout"/>
 		
 		<xsl:for-each select="$connectionIds">
 			<set attributeName="stroke" to="#6666FF" attributeType="CSS" begin="{current()}.mouseover" end="{current()}.mouseout"/>
