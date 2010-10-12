@@ -63,7 +63,6 @@
 		<xsl:param name="contextStep" as="element()"/>
 		<xsl:param name="contextPort" as="element()"/>
 		
-		<xsl:message>[XSLT] <xsl:value-of select="$contextStep/@name"/> - <xsl:value-of select="$contextPort/@port"/></xsl:message>
 		<xsl:sequence select="root($contextStep)//p:input[p:pipe/@step = $contextStep/@name][p:pipe/@port = $contextPort/@port]/@xml:id"/>
 	</xsl:function>
 	
