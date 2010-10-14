@@ -26,7 +26,7 @@
 	</xsl:template>
 	
 	
-	<!--  -->
+	<!-- Adds IDs to each port. -->
 	<xsl:template match="p:input | p:output" mode="p:label-ports">
 		<xsl:copy>
 			<xsl:attribute name="xml:id" select="generate-id()"/>
@@ -36,12 +36,31 @@
 	</xsl:template>
 	
 	
-	<!--  -->
-	<xsl:template match="p:declare-step/p:output" mode="p:connect">
-		<xsl:variable name="parentStep" as="element()" select="if (name(..) = 'p:declare-step') then .. else ../.."/>
+	<!-- Binds the pipeline's input ports to the first steps input port. -->
+	<xsl:template match="p:declare-step/p:input" mode="p:connect">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
-			<xsl:attribute name="xpt:boundPorts" select="../*[last()]//p:output/@xml:id"/>
+			<xsl:attribute name="xpt:boundPorts" select="string-join(../*//p:input[p:pipe[@step = current()/../@name]]/@xml:id, ' ')"/>
+			<xsl:apply-templates select="* | text()" mode="#current"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	
+	<!-- Binds the pipeline's output port to the last step's 'primary' output port. -->
+	<xsl:template match="p:declare-step/p:output" mode="p:connect">
+		<xsl:copy>
+			<xsl:copy-of select="@*"/>
+			<xsl:attribute name="xpt:boundPorts" select="../*[last()]//p:output[@primary = true()]/@xml:id"/>
+			<xsl:apply-templates select="* | text()" mode="#current"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	
+	<!--  -->
+	<xsl:template match="p:input" mode="p:connect">
+		<xsl:copy>
+			<xsl:copy-of select="@*"/>
+			<xsl:attribute name="xpt:boundPorts" select="string-join(xpt:find-bound-output-ports(.., self::*), ' ')"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>
@@ -52,18 +71,27 @@
 		<xsl:variable name="parentStep" as="element()" select="if (name(..) = 'p:declare-step') then .. else ../.."/>
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
-			<xsl:attribute name="xpt:boundPorts" select="string-join(xpt:find-bound-ports($parentStep, self::*), ' ')"/>
+			<xsl:attribute name="xpt:boundPorts" select="string-join(xpt:find-bound-input-ports($parentStep, self::*), ' ')"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>
 	
 	
 	<!-- Returns a white-space separated list of port ids. -->
-	<xsl:function name="xpt:find-bound-ports" as="xs:string*">
+	<xsl:function name="xpt:find-bound-input-ports" as="xs:string*">
 		<xsl:param name="contextStep" as="element()"/>
 		<xsl:param name="contextPort" as="element()"/>
 		
 		<xsl:sequence select="root($contextStep)//p:input[p:pipe/@step = $contextStep/@name][p:pipe/@port = $contextPort/@port]/@xml:id"/>
+	</xsl:function>
+	
+	
+	<!-- Returns a white-space separated list of port ids. -->
+	<xsl:function name="xpt:find-bound-output-ports" as="xs:string*">
+		<xsl:param name="contextStep" as="element()"/>
+		<xsl:param name="contextPort" as="element()"/>
+		
+		<xsl:sequence select="root($contextStep)//p:output[../../@name = $contextPort/p:pipe/@step]/@xml:id"/>
 	</xsl:function>
 	
 	
