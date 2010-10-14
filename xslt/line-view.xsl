@@ -75,7 +75,12 @@
 				
 				<xsl:call-template name="xpt:step">
 					<xsl:with-param name="stepSymbol" as="element()">
-						<rect xsl:use-attribute-sets="step" x="174" y="-6" width="12" height="12" rx="2" ry="2"/>
+						<rect id="{@name}Symbol" xsl:use-attribute-sets="step" x="174" y="-6" width="12" height="12" rx="2" ry="2">
+							<xsl:call-template name="xpt:highlightConnections">
+								<xsl:with-param name="connectionIds" as="xs:string*" 
+									select="(tokenize(p:input/@xpt:boundPorts, ' '), current()/p:input/@xml:id)"/>
+							</xsl:call-template>
+						</rect>
 					</xsl:with-param>
 				</xsl:call-template>
 								
@@ -83,12 +88,17 @@
 				
 				<xsl:variable name="lastStep" as="element()" select="descendant::element()[@css:visibility = 'visible'][not(exists(following-sibling::*[@css:visibility = 'visible']))]"/>
 				<g transform="translate(0, {($lastStep/@xpt:position + 1) * $vSpacing})">
-					<path id="{generate-id()}" xsl:use-attribute-sets="connection" d="m0,0 l0,-{$vSpacing - 6}">
+					<path id="{p:output/@xpt:boundPorts}" xsl:use-attribute-sets="connection" d="m0,0 l0,-{$vSpacing - 6}">
 						<xsl:call-template name="xpt:highlightConnection">
-							<xsl:with-param name="connectionId" select="generate-id()"/>
+							<xsl:with-param name="connectionId" select="p:output/@xpt:boundPorts"/>
 						</xsl:call-template>
 					</path>
-					<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2"/>
+					<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
+						<xsl:call-template name="xpt:highlightConnections">
+							<xsl:with-param name="connectionIds" as="xs:string*" 
+								select="(tokenize(p:output/@xpt:boundPorts, ' '))"/>
+						</xsl:call-template>
+					</rect>
 				</g>
 			</g>
 		</svg>
@@ -102,7 +112,7 @@
 				<circle id="{@name}Symbol" xsl:use-attribute-sets="step" cx="180" cy="0" r="6">
 					<xsl:call-template name="xpt:highlightConnections">
 						<xsl:with-param name="connectionIds" as="xs:string*" 
-							select="(tokenize(p:pipeinfo/p:output/@xpt:boundPorts, ' '), current()/p:input/@xml:id)"/>
+							select="(tokenize(p:pipeinfo/p:output/@xpt:boundPorts, ' '), current()/p:input/@xml:id, if (count(following-sibling::*) = 0) then p:pipeinfo/p:output/@xml:id else ())"/>
 					</xsl:call-template>
 				</circle>
 			</xsl:with-param>
@@ -134,7 +144,7 @@
 	
 
 	<!-- Port. -->
-	<xsl:template match="(: p:input | :) p:output" mode="p:ports" priority="1">
+	<xsl:template match="p:input | p:output" mode="p:ports" priority="1">
 		<xsl:variable name="contextPort" as="element()" select="."/>
 		<xsl:variable name="parentStep" as="element()" select="if (exists(self::p:input)) then .. else ../.."/>
 		<xsl:variable name="connectionIds" as="xs:string*" 
