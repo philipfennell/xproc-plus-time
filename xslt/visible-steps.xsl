@@ -42,7 +42,6 @@
 	<xsl:template match="p:declare-step" mode="xpt:position" priority="1">
 		<xsl:copy copy-namespaces="yes">
 			<xsl:copy-of select="@*"/>
-			<xsl:attribute name="xpt:position" select="1"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>
@@ -52,7 +51,7 @@
 	<xsl:template match="*[@css:visibility]" mode="xpt:position">
 		<xsl:copy copy-namespaces="no">
 			<xsl:copy-of select="@*"/>
-			<xsl:attribute name="xpt:position" select="count(preceding-sibling::*[@css:visibility = 'visible']) + 2"/>
+			<xsl:attribute name="xpt:position" select="count(preceding-sibling::*[@css:visibility = 'visible']) + 1"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>

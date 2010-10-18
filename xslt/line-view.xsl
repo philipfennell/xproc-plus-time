@@ -71,9 +71,9 @@
 		<svg version="1.1">
 			<xsl:call-template name="svg:dimensions"/>
 			
-			<g transform="translate(242,0)">
+			<g transform="translate(242,{$vSpacing})">
 				
-				<xsl:call-template name="xpt:step">
+				<!--<xsl:call-template name="xpt:step">
 					<xsl:with-param name="stepSymbol" as="element()">
 						<rect id="{@name}Symbol" xsl:use-attribute-sets="step" x="174" y="-6" width="12" height="12" rx="2" ry="2">
 							<xsl:call-template name="xpt:highlightConnections">
@@ -82,9 +82,26 @@
 							</xsl:call-template>
 						</rect>
 					</xsl:with-param>
-				</xsl:call-template>
-								
+				</xsl:call-template>-->
+				
+				<xsl:variable name="firstStep" as="element()" select="*[xpt:isVisible(.)][1]"/>
+				<g transform="translate(0, {0 * $vSpacing})">
+					<path id="{p:output/@xpt:boundPorts}" xsl:use-attribute-sets="connection" d="m0,0 l0,{$vSpacing}">
+						<xsl:call-template name="xpt:highlightConnection">
+							<xsl:with-param name="connectionId" select="p:output/@xpt:boundPorts"/>
+						</xsl:call-template>
+					</path>
+					<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
+						<xsl:call-template name="xpt:highlightConnections">
+							<xsl:with-param name="connectionIds" as="xs:string*" 
+								select="(tokenize(p:output/@xpt:boundPorts, ' '))"/>
+						</xsl:call-template>
+					</rect>
+				</g>
+				
+				
 				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
+				
 				
 				<xsl:variable name="lastStep" as="element()" select="descendant::element()[@css:visibility = 'visible'][not(exists(following-sibling::*[@css:visibility = 'visible']))]"/>
 				<g transform="translate(0, {($lastStep/@xpt:position + 1) * $vSpacing})">
@@ -144,9 +161,9 @@
 	
 
 	<!-- Port. -->
-	<xsl:template match="p:input | p:output" mode="p:ports" priority="1">
+	<xsl:template match="p:output" mode="p:ports" priority="1">
 		<xsl:variable name="contextPort" as="element()" select="."/>
-		<xsl:variable name="parentStep" as="element()" select="if (exists(self::p:input)) then .. else ../.."/>
+		<xsl:variable name="parentStep" as="element()" select="../.."/>
 		<xsl:variable name="connectionIds" as="xs:string*" 
 				select="tokenize(@xpt:boundPorts, ' ')"/>
 		<xsl:variable name="boundPorts" as="element()*" 
