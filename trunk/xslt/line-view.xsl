@@ -68,34 +68,37 @@
 	
 	<!--  -->
 	<xsl:template match="/p:declare-step" mode="p:pipeline">
+		<xsl:variable name="stepName" as="xs:string" select="xpt:normaliseName(@name)"/>
+		
 		<svg version="1.1">
 			<xsl:call-template name="svg:dimensions"/>
 			
 			<g transform="translate(242,{$vSpacing})">
 				
-				<!--<xsl:call-template name="xpt:step">
-					<xsl:with-param name="stepSymbol" as="element()">
-						<rect id="{@name}Symbol" xsl:use-attribute-sets="step" x="174" y="-6" width="12" height="12" rx="2" ry="2">
-							<xsl:call-template name="xpt:highlightConnections">
-								<xsl:with-param name="connectionIds" as="xs:string*" 
-									select="(tokenize(p:input/@xpt:boundPorts, ' '), current()/p:input/@xml:id)"/>
-							</xsl:call-template>
-						</rect>
-					</xsl:with-param>
-				</xsl:call-template>-->
-				
 				<xsl:variable name="firstStep" as="element()" select="*[xpt:isVisible(.)][1]"/>
 				<g transform="translate(0, {0 * $vSpacing})">
-					<path id="{p:output/@xpt:boundPorts}" xsl:use-attribute-sets="connection" d="m0,0 l0,{$vSpacing}">
+					<path id="{p:input/@xpt:boundPorts}" xsl:use-attribute-sets="connection" d="m0,0 l0,{$vSpacing}">
 						<xsl:call-template name="xpt:highlightConnection">
-							<xsl:with-param name="connectionId" select="p:output/@xpt:boundPorts"/>
+							<xsl:with-param name="connectionId" select="p:input/@xpt:boundPorts"/>
 						</xsl:call-template>
+						<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+								begin="{$stepName}InputSymbol.mouseover" 
+								end="{$stepName}InputSymbol.mouseout"/>
+						<set attributeName="stroke-width" to="5" attributeType="CSS" 
+								begin="{$stepName}InputSymbol.mouseover" 
+								end="{$stepName}InputSymbol.mouseout"/>
 					</path>
-					<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
+					<rect id="{$stepName}InputSymbol" xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
 						<xsl:call-template name="xpt:highlightConnections">
 							<xsl:with-param name="connectionIds" as="xs:string*" 
-								select="(tokenize(p:output/@xpt:boundPorts, ' '))"/>
+								select="(tokenize(p:input/@xpt:boundPorts, ' '))"/>
 						</xsl:call-template>
+						<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+								begin="{$stepName}InputSymbol.mouseover" 
+								end="{$stepName}InputSymbol.mouseout"/>
+						<set attributeName="stroke-width" to="5" attributeType="CSS" 
+								begin="{$stepName}InputSymbol.mouseover" 
+								end="{$stepName}InputSymbol.mouseout"/>
 					</rect>
 				</g>
 				
@@ -109,12 +112,24 @@
 						<xsl:call-template name="xpt:highlightConnection">
 							<xsl:with-param name="connectionId" select="p:output/@xpt:boundPorts"/>
 						</xsl:call-template>
+						<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+								begin="{$stepName}OutputSymbol.mouseover" 
+								end="{$stepName}OutputSymbol.mouseout"/>
+						<set attributeName="stroke-width" to="5" attributeType="CSS" 
+								begin="{$stepName}OutputSymbol.mouseover" 
+								end="{$stepName}OutputSymbol.mouseout"/>
 					</path>
-					<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
+					<rect id="{$stepName}OutputSymbol" xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
 						<xsl:call-template name="xpt:highlightConnections">
 							<xsl:with-param name="connectionIds" as="xs:string*" 
 								select="(tokenize(p:output/@xpt:boundPorts, ' '))"/>
 						</xsl:call-template>
+						<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+								begin="{$stepName}OutputSymbol.mouseover" 
+								end="{$stepName}OutputSymbol.mouseout"/>
+						<set attributeName="stroke-width" to="5" attributeType="CSS" 
+								begin="{$stepName}OutputSymbol.mouseover" 
+								end="{$stepName}OutputSymbol.mouseout"/>
 					</rect>
 				</g>
 			</g>
@@ -291,6 +306,14 @@
 		<xsl:param name="contextNode" as="element()"/>
 		
 		<xsl:value-of select="if ($contextNode/@css:visibility = 'visible') then true() else false()"/>
+	</xsl:function>
+	
+	
+	<!--  -->
+	<xsl:function name="xpt:normaliseName" as="xs:string">
+		<xsl:param name="stepName"/>
+		
+		<xsl:value-of select="translate($stepName, '-', '')"/>
 	</xsl:function>
 	
 </xsl:transform>
