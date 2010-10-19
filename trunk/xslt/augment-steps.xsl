@@ -38,6 +38,21 @@
 	</xsl:template>
 	
 	
+	<!--  -->
+	<xsl:template match="p:input" mode="p:augment">
+		<xsl:copy>
+			<xsl:copy-of select="@*"/>
+			<xsl:if test="not(@primary)">
+				<xsl:attribute name="primary" select="true()"/>
+			</xsl:if>
+			<xsl:if test="not(@sequence)">
+				<xsl:attribute name="sequence" select="false()"/>
+			</xsl:if>
+			<xsl:copy-of select="*"/>
+		</xsl:copy>
+	</xsl:template>	
+	
+	
 	<!-- Connects a pipeline's implicitly bound output port with the result port
 		 of the last step in the pipeline. -->
 	<xsl:template match="p:output[not(*)]" mode="p:augment">
@@ -135,7 +150,7 @@
 	
 	
 	<!-- Replicate these nodes. -->
-	<xsl:template match="p:data | p:document | p:documentation | p:empty | p:import | p:inline | p:input | p:log | p:option | p:pipe | p:pipeinfo | p:serialization" mode="p:augment">
+	<xsl:template match="p:data | p:document | p:documentation | p:empty | p:import | p:inline | p:log | p:option | p:pipe | p:pipeinfo | p:serialization" mode="p:augment">
 		<xsl:copy-of select="."/>
 	</xsl:template>
 </xsl:transform>

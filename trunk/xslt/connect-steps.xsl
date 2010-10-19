@@ -40,7 +40,7 @@
 	<xsl:template match="p:declare-step/p:input" mode="p:connect">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
-			<xsl:attribute name="xpt:boundPorts" select="string-join(../*//p:input[p:pipe[@step = current()/../@name]]/@xml:id, ' ')"/>
+			<xsl:attribute name="xpt:boundPorts" select="string-join(../*//p:input[p:pipe[@step = current()/../@name][@port = current()/@port]]/@xml:id, ' ')"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>
