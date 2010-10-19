@@ -23,7 +23,7 @@
 	<xsl:strip-space elements="*"/>
 
 	<xsl:variable name="vSpacing" as="xs:integer" select="100"/>
-	<xsl:variable name="hSpacing" as="xs:integer" select="xs:integer(ceiling(0.618 * 100))"/>
+	<xsl:variable name="hSpacing" as="xs:integer" select="xs:integer(ceiling(0.618 * $vSpacing))"/>
 	
 	<xsl:attribute-set name="step">
 		<xsl:attribute name="fill">#FFFFFF</xsl:attribute>
@@ -76,35 +76,10 @@
 			<g transform="translate(242,{$vSpacing})">
 				
 				<xsl:variable name="firstStep" as="element()" select="*[xpt:isVisible(.)][1]"/>
-				<g transform="translate(0, {0 * $vSpacing})">
-					<path id="{p:input/@xpt:boundPorts}" xsl:use-attribute-sets="connection" d="m0,0 l0,{$vSpacing}">
-						<xsl:call-template name="xpt:highlightConnection">
-							<xsl:with-param name="connectionId" select="p:input/@xpt:boundPorts"/>
-						</xsl:call-template>
-						<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
-								begin="{$stepName}InputSymbol.mouseover" 
-								end="{$stepName}InputSymbol.mouseout"/>
-						<set attributeName="stroke-width" to="5" attributeType="CSS" 
-								begin="{$stepName}InputSymbol.mouseover" 
-								end="{$stepName}InputSymbol.mouseout"/>
-					</path>
-					<rect id="{$stepName}InputSymbol" xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
-						<xsl:call-template name="xpt:highlightConnections">
-							<xsl:with-param name="connectionIds" as="xs:string*" 
-								select="(tokenize(p:input/@xpt:boundPorts, ' '))"/>
-						</xsl:call-template>
-						<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
-								begin="{$stepName}InputSymbol.mouseover" 
-								end="{$stepName}InputSymbol.mouseout"/>
-						<set attributeName="stroke-width" to="5" attributeType="CSS" 
-								begin="{$stepName}InputSymbol.mouseover" 
-								end="{$stepName}InputSymbol.mouseout"/>
-					</rect>
-				</g>
 				
-				
+				<xsl:apply-templates select="p:input" mode="p:pipeline-inputs"/>
+								
 				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
-				
 				
 				<xsl:variable name="lastStep" as="element()" select="descendant::element()[@css:visibility = 'visible'][not(exists(following-sibling::*[@css:visibility = 'visible']))]"/>
 				<g transform="translate(0, {($lastStep/@xpt:position + 1) * $vSpacing})">
@@ -134,6 +109,69 @@
 				</g>
 			</g>
 		</svg>
+	</xsl:template>
+	
+	
+	<!-- Connect the pipeline's inputs to their bound steps. -->
+	<xsl:template match="p:input" mode="p:pipeline-inputs">
+		<xsl:variable name="stepName" as="xs:string" select="xpt:normaliseName(../@name)"/>
+		<xsl:variable name="hPosn" as="xs:integer" select="count(preceding-sibling::p:input)"/>
+		<xsl:variable name="contextPort" as="element()" select="."/>
+		
+		<g transform="translate({$hPosn * $hSpacing}, {0 * $vSpacing})">
+			<xsl:variable name="boundPorts" as="element()*" 
+					select="for $portId in tokenize(@xpt:boundPorts, ' ') return id($portId)"/>
+			
+			<xsl:for-each select="$boundPorts">
+				<xsl:variable name="distance" as="xs:integer" select="../@xpt:position"/>
+				
+				<!-- Set the control point that governs the direction of the start of the path. -->
+				<xsl:variable name="directionOut" as="xs:string" select="xpt:toSouth()"/>
+				<!-- Set the control point that governs the direction of the end of the path. -->
+				<xsl:variable name="directionIn" as="xs:string" select="if (xs:boolean(@primary) = true()) then xpt:fromNorth() else xpt:fromEast()"/>
+				
+				<xsl:variable name="pathData" select="string-join(
+					(
+					'm0,0',
+									
+					concat('l0,', $vSpacing * ($distance - 1)),
+					
+					concat('c', 0, ',', $vSpacing), 
+					$directionIn,
+					concat((-1 * $hPosn) * $hSpacing, ',', $vSpacing)
+					), ' ')"/>
+				
+				<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
+					<!--
+					<xsl:call-template name="xpt:highlightConnection">
+						<xsl:with-param name="connectionId" select="@xpt:boundPorts"/>
+					</xsl:call-template>
+					<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+						begin="{$stepName}InputSymbol.mouseover" 
+						end="{$stepName}InputSymbol.mouseout"/>
+					<set attributeName="stroke-width" to="5" attributeType="CSS" 
+						begin="{$stepName}InputSymbol.mouseover" 
+						end="{$stepName}InputSymbol.mouseout"/>
+					-->
+				</path>	
+			</xsl:for-each>
+			
+			<!-- id="{$stepName}InputSymbol" -->
+			<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
+				<!--
+				<xsl:call-template name="xpt:highlightConnections">
+					<xsl:with-param name="connectionIds" as="xs:string*" 
+						select="(tokenize(@xpt:boundPorts, ' '))"/>
+				</xsl:call-template>
+				<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+						begin="{$stepName}InputSymbol.mouseover" 
+						end="{$stepName}InputSymbol.mouseout"/>
+				<set attributeName="stroke-width" to="5" attributeType="CSS" 
+						begin="{$stepName}InputSymbol.mouseover" 
+						end="{$stepName}InputSymbol.mouseout"/>
+				-->
+			</rect>
+		</g>
 	</xsl:template>
 	
 	
