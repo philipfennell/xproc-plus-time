@@ -100,8 +100,6 @@
 			<xsl:for-each select="$boundPorts">
 				<xsl:variable name="distance" as="xs:integer" select="../@xpt:position"/>
 				
-				<!-- Set the control point that governs the direction of the start of the path. -->
-				<xsl:variable name="directionOut" as="xs:string" select="xpt:toSouth()"/>
 				<!-- Set the control point that governs the direction of the end of the path. -->
 				<xsl:variable name="directionIn" as="xs:string" select="if (xs:boolean(@primary) = true()) then xpt:fromNorth() else xpt:fromEast()"/>
 				
@@ -165,19 +163,16 @@
 				<xsl:variable name="distance" as="xs:integer" select="../../@xpt:position"/>
 				
 				<!-- Set the control point that governs the direction of the start of the path. -->
-				<xsl:variable name="directionOut" as="xs:string" select="xpt:toSouth()"/>
-				<!-- Set the control point that governs the direction of the end of the path. -->
-				<xsl:variable name="directionIn" as="xs:string" select="if (xs:boolean(@primary) = true()) then xpt:fromNorth() else xpt:fromEast()"/>
+				<xsl:variable name="directionOut" as="xs:string" select="if (xs:boolean(@primary) = true()) then xpt:toSouth() else xpt:toEast()"/>
 				
 				<xsl:variable name="pathData" select="string-join(
 					(
 					'm0,0',
+					concat('c', $directionOut), 
+					concat(62, ',', 0),
+					concat(62, ',', $vSpacing),
 					
-					concat('l0,', $vSpacing * ($distance - 1)),
-					
-					concat('c', 0, ',', $vSpacing), 
-					$directionIn,
-					concat((-1 * $hPosn) * $hSpacing, ',', $vSpacing)
+					concat('l0,', -1 * ($vSpacing * ($distance - 2)))
 					), ' ')"/>
 				
 				<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
@@ -196,7 +191,7 @@
 			</xsl:for-each>
 			
 			<!-- id="{$stepName}OutputSymbol"-->
-			<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
+			<rect xsl:use-attribute-sets="step" x="-6" y="{-6 + $vSpacing}" width="12" height="12" rx="2" ry="2">
 				<!--
 				<xsl:call-template name="xpt:highlightConnections">
 					<xsl:with-param name="connectionIds" as="xs:string*" 
