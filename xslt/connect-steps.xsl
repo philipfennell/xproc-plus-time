@@ -50,7 +50,10 @@
 	<xsl:template match="p:declare-step/p:output" mode="p:connect">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
-			<xsl:attribute name="xpt:boundPorts" select="../*[last()]//p:output[@primary = true()]/@xml:id"/>
+			<xsl:if test="not(@primary)">
+				<xsl:attribute name="primary" select="true()"/>
+			</xsl:if>
+			<xsl:attribute name="xpt:boundPorts" select="..//p:*[@name = current()/p:pipe/@step][p:pipeinfo/p:output[@port = current()/p:pipe/@port]]/p:pipeinfo/p:output/@xml:id"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>

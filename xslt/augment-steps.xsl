@@ -73,7 +73,7 @@
 		
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
-			<xsl:if test="not(@name)">
+			<xsl:if test="not(@name) and not(self::p:output)">
 				<xsl:attribute name="name" select="generate-id()"/>
 			</xsl:if>
 			<xsl:apply-templates select="$p:contextStepDecl/(p:input | p:output)" mode="p:ports">

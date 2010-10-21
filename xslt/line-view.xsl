@@ -81,7 +81,7 @@
 								
 				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
 				
-				<xsl:apply-templates select="p:output" mode="p:pipeline-inputs"/>
+				<xsl:apply-templates select="p:output" mode="p:pipeline-outputs"/>
 			</g>
 		</svg>
 	</xsl:template>
@@ -149,8 +149,8 @@
 	
 	
 	<!-- Connect the pipeline's outputs to their bound steps. -->
-	<xsl:template match="p:output" mode="p:pipeline-inputs">
-		<xsl:variable name="lastStep" as="element()" select="../descendant::element()[@css:visibility = 'visible'][last()]"/>
+	<xsl:template match="p:output" mode="p:pipeline-outputs">
+		<xsl:variable name="lastStep" as="element()" select="../element()[@css:visibility = 'visible'][last()]"/>
 		<xsl:variable name="stepName" as="xs:string" select="xpt:normaliseName(../@name)"/>
 		<xsl:variable name="hPosn" as="xs:integer" select="count(preceding-sibling::p:output)"/>
 		<xsl:variable name="contextPort" as="element()" select="."/>
@@ -164,15 +164,20 @@
 				
 				<!-- Set the control point that governs the direction of the start of the path. -->
 				<xsl:variable name="directionOut" as="xs:string" select="if (xs:boolean(@primary) = true()) then xpt:toSouth() else xpt:toEast()"/>
-				
+				<xsl:variable name="lastStepOffset" as="xs:integer" select="xs:integer($lastStep/@xpt:position) * $vSpacing"/>
 				<xsl:variable name="pathData" select="string-join(
 					(
 					'm0,0',
-					concat('c', $directionOut), 
-					concat(62, ',', 0),
-					concat(62, ',', $vSpacing),
+					concat('l0,', ($distance * $vSpacing) - $lastStepOffset),
 					
-					concat('l0,', -1 * ($vSpacing * ($distance - 2)))
+					concat('c0,', ($distance * $vSpacing) - $lastStepOffset),
+					
+					concat('0,', ($distance * $vSpacing) - $lastStepOffset),
+					
+					if ($contextPort/@primary = true()) then 
+						concat('0,', -100 + 6)
+					else
+						concat(-62 + 6, ',', (($distance * $vSpacing) - $lastStepOffset))
 					), ' ')"/>
 				
 				<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
@@ -191,7 +196,7 @@
 			</xsl:for-each>
 			
 			<!-- id="{$stepName}OutputSymbol"-->
-			<rect xsl:use-attribute-sets="step" x="-6" y="{-6 + $vSpacing}" width="12" height="12" rx="2" ry="2">
+			<rect xsl:use-attribute-sets="step" x="-6" y="-6" width="12" height="12" rx="2" ry="2">
 				<!--
 				<xsl:call-template name="xpt:highlightConnections">
 					<xsl:with-param name="connectionIds" as="xs:string*" 
