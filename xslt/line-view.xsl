@@ -167,9 +167,17 @@
 				<xsl:variable name="lastStepOffset" as="xs:integer" select="xs:integer($lastStep/@xpt:position) * $vSpacing"/>
 				<xsl:variable name="pathData" select="string-join(
 					(
-					concat('m0,-', ($lastStepOffset - ($distance * $vSpacing)) + $vSpacing),
-					concat('l0,-', ($lastStepOffset - ($distance * $vSpacing)) + $vSpacing),
-					concat('c0,0', ''),
+					concat('m', -1 * ($hPosn * $hSpacing), ',', -1 * (($lastStepOffset - ($distance * $vSpacing)) + $vSpacing - 6)),
+					
+					concat('c', $directionOut), 
+					concat(($hPosn * $hSpacing), ',', 0),
+					concat(($hPosn * $hSpacing), ',', $vSpacing),
+					
+					concat('l0,', ($lastStepOffset - ($distance * $vSpacing)))
+					), ' ')"/>
+				
+				<!-- 
+				concat('c0,0', ''),
 					
 					concat('0,', ($distance * $vSpacing) - $lastStepOffset),
 					
@@ -177,7 +185,8 @@
 						concat('0,', -100 + 6)
 					else
 						concat(-62 + 6, ',', (($distance * $vSpacing) - $lastStepOffset))
-					), ' ')"/>
+					
+				-->
 				
 				<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
 					<!--
