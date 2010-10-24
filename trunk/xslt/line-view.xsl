@@ -77,11 +77,19 @@
 				
 				<xsl:variable name="firstStep" as="element()" select="*[xpt:isVisible(.)][1]"/>
 				
+				<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
+					<text x="0" y="-7">Pipeline	</text>
+					<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="{180 + (count(p:input) - 1) * $hSpacing}" y2="0"/>
+					<text xsl:use-attribute-sets="name" x="0" y="16">
+						<xsl:value-of select="(@name, 'anonymous')[1]"/>
+					</text>
+				</g>
+				
 				<xsl:apply-templates select="p:input" mode="p:pipeline-inputs"/>
-								
-				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
 				
 				<xsl:apply-templates select="p:output" mode="p:pipeline-outputs"/>
+								
+				<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="p:steps"/>
 			</g>
 		</svg>
 	</xsl:template>
@@ -167,7 +175,7 @@
 				<xsl:variable name="lastStepOffset" as="xs:integer" select="xs:integer($lastStep/@xpt:position) * $vSpacing"/>
 				<xsl:variable name="pathData" select="string-join(
 					(
-					concat('m', -1 * ($hPosn * $hSpacing), ',', -1 * (($lastStepOffset - ($distance * $vSpacing)) + $vSpacing - 6)),
+					concat('m', -1 * ($hPosn * $hSpacing), ',', -1 * (($lastStepOffset - ($distance * $vSpacing)) + $vSpacing)),
 					
 					concat('c', $directionOut), 
 					concat(($hPosn * $hSpacing), ',', 0),
@@ -175,18 +183,6 @@
 					
 					concat('l0,', ($lastStepOffset - ($distance * $vSpacing)))
 					), ' ')"/>
-				
-				<!-- 
-				concat('c0,0', ''),
-					
-					concat('0,', ($distance * $vSpacing) - $lastStepOffset),
-					
-					if ($contextPort/@primary = true()) then 
-						concat('0,', -100 + 6)
-					else
-						concat(-62 + 6, ',', (($distance * $vSpacing) - $lastStepOffset))
-					
-				-->
 				
 				<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
 					<!--
@@ -381,7 +377,7 @@
 	
 	<!--  -->
 	<xsl:template name="svg:dimensions" as="attribute()*">
-		<xsl:attribute name="width" select="'1024'"/>
+		<xsl:attribute name="width" select="(max((count(p:input), count(p:output))) * $hSpacing) + 242 + $hSpacing"/>
 		<xsl:attribute name="height" select="$vSpacing * (count(*[xpt:isVisible(.)]) + 3)"/>
 	</xsl:template>
 	
