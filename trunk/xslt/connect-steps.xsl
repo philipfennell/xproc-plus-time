@@ -53,7 +53,7 @@
 			<xsl:if test="not(@primary)">
 				<xsl:attribute name="primary" select="true()"/>
 			</xsl:if>
-			<xsl:attribute name="xpt:boundPorts" select="..//p:*[@name = current()/p:pipe/@step][p:pipeinfo/p:output[@port = current()/p:pipe/@port]]/p:pipeinfo/p:output/@xml:id"/>
+			<xsl:attribute name="xpt:boundPorts" select="../p:*[@name = current()/p:pipe/@step][p:pipeinfo/p:output[@port = current()/p:pipe/@port]]/p:pipeinfo/p:output[@port = current()/p:pipe/@port]/@xml:id"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
 	</xsl:template>

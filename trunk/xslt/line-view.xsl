@@ -22,8 +22,10 @@
 
 	<xsl:strip-space elements="*"/>
 
+	<xsl:variable name="aspectRation" as="xs:decimal" select="0.618"/>
 	<xsl:variable name="vSpacing" as="xs:integer" select="100"/>
-	<xsl:variable name="hSpacing" as="xs:integer" select="xs:integer(ceiling(0.618 * $vSpacing))"/>
+	<xsl:variable name="hSpacing" as="xs:integer" select="xs:integer(ceiling($aspectRation * $vSpacing))"/>
+	<xsl:variable name="vSpacing2" as="xs:integer" select="$hSpacing * $aspectRation"/>
 	
 	<xsl:attribute-set name="step">
 		<xsl:attribute name="fill">#FFFFFF</xsl:attribute>
@@ -75,7 +77,7 @@
 			
 			<style type="text/css">
 				.schematron-file, .xslt-merge-file, .xslt-svrl2html, .parameters {
-					visibility:hidden;
+					visibility:visible;
 					/ *stroke-opacity:0.33; */
 				}
 				.result, .report {
@@ -83,7 +85,7 @@
 					/* stroke-opacity:0.33; */
 				}
 				.connection {
-					visibility:hidden;
+					visibility:visible;
 				}
 			</style>
 			
@@ -106,8 +108,9 @@
 		<xsl:variable name="stepName" as="xs:string" select="xpt:normaliseName(../@name)"/>
 		<xsl:variable name="hPosn" as="xs:integer" select="position()"/>
 		<xsl:variable name="contextPort" as="element()" select="."/>
+		<xsl:variable name="hOffset" as="xs:integer" select="($hPosn * $hSpacing) + 186"/>
 		
-		<g class="input {@port}" transform="translate({$hPosn * $hSpacing}, {-1 * (($hPosn - 1) * $hSpacing)})">
+		<g class="input {@port}" transform="translate({$hOffset}, {-1 * (($hPosn - 1) * $hSpacing)})">
 			<xsl:variable name="boundPorts" as="element()*" 
 					select="for $portId in tokenize(@xpt:boundPorts, ' ') return id($portId)"/>
 			
@@ -125,7 +128,7 @@
 					
 					concat('c', 0, ',', $vSpacing), 
 					$directionIn,
-					concat((-1 * $hPosn) * $hSpacing, ',', $vSpacing)
+					concat((-1 * $hOffset), ',', $vSpacing)
 					), ' ')"/>
 				<g transform="translate({../@xpt:position * 0},0)">
 					<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
@@ -175,10 +178,11 @@
 	<xsl:template match="p:output" mode="p:pipeline-outputs">
 		<xsl:variable name="lastStep" as="element()" select="../element()[@css:visibility = 'visible'][last()]"/>
 		<xsl:variable name="stepName" as="xs:string" select="xpt:normaliseName(../@name)"/>
-		<xsl:variable name="hPosn" as="xs:integer" select="position()"/>
+		<xsl:variable name="hPosn" as="xs:integer" select="position() - 1"/>
 		<xsl:variable name="contextPort" as="element()" select="."/>
+		<xsl:variable name="hOffset" as="xs:integer" select="($hPosn * $hSpacing) + 124"/>
 		
-		<g class="output {@port}" transform="translate({$hPosn * $hSpacing}, {(($lastStep/@xpt:position + 1) * $vSpacing)})">
+		<g class="output {@port}" transform="translate({$hOffset}, {(($lastStep/@xpt:position + 1) * $vSpacing)})">
 			<xsl:variable name="boundPorts" as="element()*" 
 					select="for $portId in tokenize(@xpt:boundPorts, ' ') return id($portId)"/>
 			
@@ -186,17 +190,17 @@
 				<xsl:variable name="distance" as="xs:integer" select="../../@xpt:position"/>
 				
 				<!-- Set the control point that governs the direction of the start of the path. -->
-				<xsl:variable name="directionOut" as="xs:string" select="if (xs:boolean(@primary) = true()) then xpt:toSouth() else xpt:toEast()"/>
+				<xsl:variable name="directionOut" as="xs:string" select="if (xs:boolean(@primary) = true()) then xpt:toSouth() else string-join((string($hOffset - $hSpacing), string($vSpacing * 0)), ',')"/>
 				<xsl:variable name="lastStepOffset" as="xs:integer" select="xs:integer($lastStep/@xpt:position) * $vSpacing"/>
 				<xsl:variable name="pathData" select="string-join(
 					(
-					concat('m', -1 * ($hPosn * $hSpacing), ',', -1 * (($lastStepOffset - ($distance * $vSpacing)) + $vSpacing)),
+					concat('m', -1 * $hOffset, ',', -1 * (($lastStepOffset - ($distance * $vSpacing)) + $vSpacing)),
 					
 					concat('c', $directionOut), 
-					concat(($hPosn * $hSpacing), ',', 0),
-					concat(($hPosn * $hSpacing), ',', $vSpacing),
+					concat($hOffset, ',', 0),
+					concat($hOffset, ',', if (xs:boolean(@primary) = true()) then $vSpacing else $hSpacing),
 					
-					concat('l0,', ($lastStepOffset - ($distance * $vSpacing)  + ($hPosn * $hSpacing)))
+					concat('l0,', ($lastStepOffset - ($distance * $vSpacing)  + ($hPosn * $vSpacing)))
 					), ' ')"/>
 				
 				<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
@@ -340,7 +344,7 @@
 	
 	
 	<xsl:function name="xpt:toEast" as="xs:string">
-		<xsl:value-of select="string-join((string($hSpacing * 1), string($vSpacing * 0)), ',')"/>
+		<xsl:value-of select="string-join((string($hSpacing), string($vSpacing * 0)), ',')"/>
 	</xsl:function>
 	
 	
@@ -403,8 +407,9 @@
 	
 	<!--  -->
 	<xsl:template name="svg:dimensions" as="attribute()*">
-		<xsl:attribute name="width" select="(max((count(p:input), count(p:output))) * $hSpacing) + 242 + $hSpacing"/>
-		<xsl:attribute name="height" select="$vSpacing * (count(*[xpt:isVisible(.)]) + count(p:input | p:output))"/>
+		<xsl:variable name="height" as="xs:integer" select="$vSpacing * (count(*[xpt:isVisible(.)]) + count(p:input | p:output))"/>
+		<xsl:attribute name="width" select="$height * $aspectRation"/>
+		<xsl:attribute name="height" select="$height"/>
 	</xsl:template>
 	
 	
