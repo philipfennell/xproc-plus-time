@@ -120,6 +120,9 @@
 					<xsl:variable name="precedingStep" as="element()?" 
 							select="$contextStep/preceding-sibling::*[not(name() = $nonStepNames)][1]"/>
 					<xsl:choose>
+						<xsl:when test="@port = 'parameters'">
+							<p:empty/>
+						</xsl:when>
 						<xsl:when test="exists($precedingStep)">
 							<p:pipe port="result" 
 									step="{($precedingStep/@name, generate-id($precedingStep))[1]}"/>

@@ -73,6 +73,20 @@
 		<svg version="1.1">
 			<xsl:call-template name="svg:dimensions"/>
 			
+			<style type="text/css">
+				.schematron-file, .xslt-merge-file, .xslt-svrl2html, .parameters {
+					visibility:hidden;
+					/ *stroke-opacity:0.33; */
+				}
+				.result, .report {
+					visibility:visible;
+					/* stroke-opacity:0.33; */
+				}
+				.connection {
+					visibility:hidden;
+				}
+			</style>
+			
 			<g transform="translate(242,{$hSpacing * count(p:input)})">
 				
 				<xsl:variable name="firstStep" as="element()" select="*[xpt:isVisible(.)][1]"/>
@@ -90,10 +104,10 @@
 	<!-- Connect the pipeline's inputs to their bound steps. -->
 	<xsl:template match="p:input" mode="p:pipeline-inputs">
 		<xsl:variable name="stepName" as="xs:string" select="xpt:normaliseName(../@name)"/>
-		<xsl:variable name="hPosn" as="xs:integer" select="count(preceding-sibling::p:input)"/>
+		<xsl:variable name="hPosn" as="xs:integer" select="position()"/>
 		<xsl:variable name="contextPort" as="element()" select="."/>
 		
-		<g class="input {@port}" transform="translate({$hPosn * $hSpacing}, {-1 * ($hPosn * $hSpacing)})">
+		<g class="input {@port}" transform="translate({$hPosn * $hSpacing}, {-1 * (($hPosn - 1) * $hSpacing)})">
 			<xsl:variable name="boundPorts" as="element()*" 
 					select="for $portId in tokenize(@xpt:boundPorts, ' ') return id($portId)"/>
 			
@@ -107,26 +121,27 @@
 					(
 					'm0,0',
 									
-					concat('l0,', ($vSpacing * ($distance - 1)) + ($hPosn * $hSpacing)),
+					concat('l0,', ($vSpacing * ($distance - 1)) + (($hPosn - 1) * $hSpacing)),
 					
 					concat('c', 0, ',', $vSpacing), 
 					$directionIn,
 					concat((-1 * $hPosn) * $hSpacing, ',', $vSpacing)
 					), ' ')"/>
-				
-				<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
-					<!--
-					<xsl:call-template name="xpt:highlightConnection">
-						<xsl:with-param name="connectionId" select="@xpt:boundPorts"/>
-					</xsl:call-template>
-					<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
-						begin="{$stepName}InputSymbol.mouseover" 
-						end="{$stepName}InputSymbol.mouseout"/>
-					<set attributeName="stroke-width" to="5" attributeType="CSS" 
-						begin="{$stepName}InputSymbol.mouseover" 
-						end="{$stepName}InputSymbol.mouseout"/>
-					-->
-				</path>	
+				<g transform="translate({../@xpt:position * 0},0)">
+					<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
+						<!--
+						<xsl:call-template name="xpt:highlightConnection">
+							<xsl:with-param name="connectionId" select="@xpt:boundPorts"/>
+						</xsl:call-template>
+						<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+							begin="{$stepName}InputSymbol.mouseover" 
+							end="{$stepName}InputSymbol.mouseout"/>
+						<set attributeName="stroke-width" to="5" attributeType="CSS" 
+							begin="{$stepName}InputSymbol.mouseover" 
+							end="{$stepName}InputSymbol.mouseout"/>
+						-->
+					</path>	
+				</g>
 			</xsl:for-each>
 			
 			<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
@@ -160,7 +175,7 @@
 	<xsl:template match="p:output" mode="p:pipeline-outputs">
 		<xsl:variable name="lastStep" as="element()" select="../element()[@css:visibility = 'visible'][last()]"/>
 		<xsl:variable name="stepName" as="xs:string" select="xpt:normaliseName(../@name)"/>
-		<xsl:variable name="hPosn" as="xs:integer" select="count(preceding-sibling::p:output)"/>
+		<xsl:variable name="hPosn" as="xs:integer" select="position()"/>
 		<xsl:variable name="contextPort" as="element()" select="."/>
 		
 		<g class="output {@port}" transform="translate({$hPosn * $hSpacing}, {(($lastStep/@xpt:position + 1) * $vSpacing)})">
@@ -313,7 +328,7 @@
 						concat('M0,0 L0,', $length)"/>
 			<xsl:variable name="pathId" as="xs:string" select="@xml:id"/>
 			
-			<path id="{$pathId}" xsl:use-attribute-sets="connection" d="{$pathData}">
+			<path id="{$pathId}" class="connection" xsl:use-attribute-sets="connection" d="{$pathData}">
 				<xsl:call-template name="xpt:highlightConnection">
 					<xsl:with-param name="connectionId" as="xs:string" select="@xml:id"/>
 					<xsl:with-param name="contextStepId" as="xs:string" select="$parentStep/@name"/>

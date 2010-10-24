@@ -60,7 +60,7 @@
 	
 	
 	<!--  -->
-	<xsl:template match="p:input" mode="p:connect">
+	<xsl:template match="p:input[p:pipe]" mode="p:connect">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
 			<xsl:attribute name="xpt:boundPorts" select="string-join(xpt:find-bound-output-ports(.., self::*), ' ')"/>
