@@ -17,7 +17,7 @@
                                     <String xml:space="preserve">XPROC</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">examples/multiple-outputs.xpl</String>
+                                    <String xml:space="preserve">examples/mergeInDatePerenne.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -33,24 +33,24 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">xproc-viewer</String>
+                                    <String xml:space="preserve">multiple-outputs</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XPROC</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">xslt/line-view.xsl</String>
+                                    <String xml:space="preserve">logs/parsed-pipeline.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">xproc-viewer transform-and-validate</String>
+                                    <String xml:space="preserve">view-this</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XPROC</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">xproc/xproc-view.xpl</String>
+                                    <String xml:space="preserve">examples/multiple-outputs.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -66,13 +66,13 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="name">
-                                    <String xml:space="preserve">multiple-outputs</String>
+                                    <String xml:space="preserve">xproc-viewer</String>
                                 </field>
                                 <field name="type">
                                     <String xml:space="preserve">XPROC</String>
                                 </field>
                                 <field name="url">
-                                    <String xml:space="preserve">logs/parsed-pipeline.xpl</String>
+                                    <String xml:space="preserve">xslt/line-view.xsl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>
@@ -84,6 +84,17 @@
                                 </field>
                                 <field name="url">
                                     <String xml:space="preserve">xslt/connect-steps.xsl</String>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="name">
+                                    <String xml:space="preserve">xproc-viewer transform-and-validate</String>
+                                </field>
+                                <field name="type">
+                                    <String xml:space="preserve">XPROC</String>
+                                </field>
+                                <field name="url">
+                                    <String xml:space="preserve">xproc/xproc-view.xpl</String>
                                 </field>
                             </scenarioAssociation>
                             <scenarioAssociation>

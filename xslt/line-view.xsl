@@ -73,17 +73,9 @@
 		<svg version="1.1">
 			<xsl:call-template name="svg:dimensions"/>
 			
-			<g transform="translate(242,{$vSpacing})">
+			<g transform="translate(242,{$hSpacing * count(p:input)})">
 				
 				<xsl:variable name="firstStep" as="element()" select="*[xpt:isVisible(.)][1]"/>
-				
-				<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
-					<text x="0" y="-7">Pipeline	</text>
-					<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="{180 + (count(p:input) - 1) * $hSpacing}" y2="0"/>
-					<text xsl:use-attribute-sets="name" x="0" y="16">
-						<xsl:value-of select="(@name, 'anonymous')[1]"/>
-					</text>
-				</g>
 				
 				<xsl:apply-templates select="p:input" mode="p:pipeline-inputs"/>
 				
@@ -101,7 +93,7 @@
 		<xsl:variable name="hPosn" as="xs:integer" select="count(preceding-sibling::p:input)"/>
 		<xsl:variable name="contextPort" as="element()" select="."/>
 		
-		<g transform="translate({$hPosn * $hSpacing}, {0 * $vSpacing})">
+		<g class="input {@port}" transform="translate({$hPosn * $hSpacing}, {-1 * ($hPosn * $hSpacing)})">
 			<xsl:variable name="boundPorts" as="element()*" 
 					select="for $portId in tokenize(@xpt:boundPorts, ' ') return id($portId)"/>
 			
@@ -115,7 +107,7 @@
 					(
 					'm0,0',
 									
-					concat('l0,', $vSpacing * ($distance - 1)),
+					concat('l0,', ($vSpacing * ($distance - 1)) + ($hPosn * $hSpacing)),
 					
 					concat('c', 0, ',', $vSpacing), 
 					$directionIn,
@@ -136,6 +128,14 @@
 					-->
 				</path>	
 			</xsl:for-each>
+			
+			<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
+				<text x="0" y="-7"><xsl:value-of select="name($contextPort)"/></text>
+				<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
+				<text xsl:use-attribute-sets="name" x="0" y="16">
+					<xsl:value-of select="$contextPort/@port"/>
+				</text>
+			</g>
 			
 			<!-- id="{$stepName}InputSymbol" -->
 			<rect xsl:use-attribute-sets="step" x="-6" y="{-6}" width="12" height="12" rx="2" ry="2">
@@ -163,7 +163,7 @@
 		<xsl:variable name="hPosn" as="xs:integer" select="count(preceding-sibling::p:output)"/>
 		<xsl:variable name="contextPort" as="element()" select="."/>
 		
-		<g transform="translate({$hPosn * $hSpacing}, {($lastStep/@xpt:position + 1) * $vSpacing})">
+		<g class="output {@port}" transform="translate({$hPosn * $hSpacing}, {(($lastStep/@xpt:position + 1) * $vSpacing)})">
 			<xsl:variable name="boundPorts" as="element()*" 
 					select="for $portId in tokenize(@xpt:boundPorts, ' ') return id($portId)"/>
 			
@@ -181,7 +181,7 @@
 					concat(($hPosn * $hSpacing), ',', 0),
 					concat(($hPosn * $hSpacing), ',', $vSpacing),
 					
-					concat('l0,', ($lastStepOffset - ($distance * $vSpacing)))
+					concat('l0,', ($lastStepOffset - ($distance * $vSpacing)  + ($hPosn * $hSpacing)))
 					), ' ')"/>
 				
 				<path id="{@xml:id}" xsl:use-attribute-sets="connection" d="{$pathData}">
@@ -200,20 +200,29 @@
 			</xsl:for-each>
 			
 			<!-- id="{$stepName}OutputSymbol"-->
-			<rect xsl:use-attribute-sets="step" x="-6" y="-6" width="12" height="12" rx="2" ry="2">
-				<!--
-				<xsl:call-template name="xpt:highlightConnections">
-					<xsl:with-param name="connectionIds" as="xs:string*" 
-						select="(tokenize(p:output/@xpt:boundPorts, ' '))"/>
-				</xsl:call-template>
-				<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
-					begin="{$stepName}OutputSymbol.mouseover" 
-					end="{$stepName}OutputSymbol.mouseout"/>
-				<set attributeName="stroke-width" to="5" attributeType="CSS" 
-					begin="{$stepName}OutputSymbol.mouseover" 
-					end="{$stepName}OutputSymbol.mouseout"/>
-				-->
-			</rect>
+			<g transform="translate(0,{($hPosn * $hSpacing)})">
+				<g xsl:use-attribute-sets="labels" transform="translate(-180,0)">
+					<text x="0" y="-7"><xsl:value-of select="name($contextPort)"/></text>
+					<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
+					<text xsl:use-attribute-sets="name" x="0" y="16">
+						<xsl:value-of select="$contextPort/@port"/>
+					</text>
+				</g>
+				<rect xsl:use-attribute-sets="step" x="-6" y="-6" width="12" height="12" rx="2" ry="2">
+					<!--
+					<xsl:call-template name="xpt:highlightConnections">
+						<xsl:with-param name="connectionIds" as="xs:string*" 
+							select="(tokenize(p:output/@xpt:boundPorts, ' '))"/>
+					</xsl:call-template>
+					<set attributeName="stroke" to="#6666FF" attributeType="CSS" 
+						begin="{$stepName}OutputSymbol.mouseover" 
+						end="{$stepName}OutputSymbol.mouseout"/>
+					<set attributeName="stroke-width" to="5" attributeType="CSS" 
+						begin="{$stepName}OutputSymbol.mouseover" 
+						end="{$stepName}OutputSymbol.mouseout"/>
+					-->
+				</rect>
+			</g>
 		</g>
 	</xsl:template>
 	
@@ -223,10 +232,12 @@
 		<xsl:call-template name="xpt:step">
 			<xsl:with-param name="stepSymbol" as="element()">
 				<circle id="{@name}Symbol" xsl:use-attribute-sets="step" cx="180" cy="0" r="6">
+					<!--
 					<xsl:call-template name="xpt:highlightConnections">
 						<xsl:with-param name="connectionIds" as="xs:string*" 
 							select="(tokenize(p:pipeinfo/p:output/@xpt:boundPorts, ' '), current()/p:input/@xml:id, if (count(following-sibling::*) = 0) then p:pipeinfo/p:output/@xml:id else ())"/>
 					</xsl:call-template>
+					-->
 				</circle>
 			</xsl:with-param>
 		</xsl:call-template>
@@ -249,7 +260,7 @@
 				<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
 				<xsl:copy-of select="$stepSymbol"/>
 				<text xsl:use-attribute-sets="name" x="0" y="16">
-					<xsl:value-of select="(@name, 'anonymous')[1]"/>
+					<xsl:value-of select="if (string-length(@name) gt 24) then concat(substring(@name, 1, 24), '...') else @name"/>
 				</text>
 			</g>
 		</g>
@@ -378,7 +389,7 @@
 	<!--  -->
 	<xsl:template name="svg:dimensions" as="attribute()*">
 		<xsl:attribute name="width" select="(max((count(p:input), count(p:output))) * $hSpacing) + 242 + $hSpacing"/>
-		<xsl:attribute name="height" select="$vSpacing * (count(*[xpt:isVisible(.)]) + 3)"/>
+		<xsl:attribute name="height" select="$vSpacing * (count(*[xpt:isVisible(.)]) + count(p:input | p:output))"/>
 	</xsl:template>
 	
 	
