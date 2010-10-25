@@ -84,8 +84,11 @@
 	<xsl:function name="xpt:find-bound-input-ports" as="xs:string*">
 		<xsl:param name="contextStep" as="element()"/>
 		<xsl:param name="contextPort" as="element()"/>
+		<xsl:variable name="position" as="xs:integer" select="xpt:step-position($contextStep)"/>
+		<xsl:variable name="isLast" as="xs:boolean" select="$position = xpt:last($contextStep)"/>
+		<xsl:variable name="boundPortIds" as="xs:string*" select="root($contextStep)//p:input[p:pipe/@step = $contextStep/@name][p:pipe/@port = $contextPort/@port]/@xml:id"/>
 		
-		<xsl:sequence select="root($contextStep)//p:input[p:pipe/@step = $contextStep/@name][p:pipe/@port = $contextPort/@port]/@xml:id"/>
+		<xsl:sequence select="((if ($isLast and $contextPort/@primary = true() and not(exists($boundPortIds))) then $contextStep/../p:output[@primary = true()]/@xml:id else ()), $boundPortIds)"/>
 	</xsl:function>
 	
 	
@@ -93,8 +96,39 @@
 	<xsl:function name="xpt:find-bound-output-ports" as="xs:string*">
 		<xsl:param name="contextStep" as="element()"/>
 		<xsl:param name="contextPort" as="element()"/>
+		<xsl:variable name="position" as="xs:integer" select="xpt:step-position($contextStep)"/>
+		<xsl:variable name="boundPortIds" as="xs:string*" select="root($contextStep)//p:output[../../@name = $contextPort/p:pipe/@step]/@xml:id"/>
 		
-		<xsl:sequence select="root($contextStep)//p:output[../../@name = $contextPort/p:pipe/@step]/@xml:id"/>
+		<xsl:sequence select="
+			(
+				(
+					if (
+						$position = 1 and 
+						data($contextPort/p:pipeinfo/p:primary) = true() and 
+						not(exists($boundPortIds))
+					) then 
+						$contextStep/../p:input[@primary = true()]/@xml:id 
+					else 
+						()
+				), 
+				$boundPortIds
+			)
+		"/>
+	</xsl:function>
+	
+	
+	<xsl:function name="xpt:last" as="xs:integer">
+		<xsl:param name="contextStep" as="element()"/>
+		
+		<xsl:value-of select="count($contextStep/../child::*) - count($contextStep/../child::*[self::p:import | self::p:input | self::p:output | self::p:serialization | self::p:option | self::p:document | self::p:inline | self::p:data | self::p:empty | self::p:pipe | self::p:pipeinfo | self::p:documentation | p:declare-step])"/>
+	</xsl:function>
+	
+	
+	<!-- Returns the position of the step in the sequence of steps. -->
+	<xsl:function name="xpt:step-position" as="xs:integer">
+		<xsl:param name="contextStep" as="element()"/>
+		
+		<xsl:value-of select="(count($contextStep/preceding-sibling::*) - count($contextStep/preceding-sibling::*[self::p:import | self::p:input | self::p:output | self::p:serialization | self::p:option | self::p:document | self::p:inline | self::p:data | self::p:empty | self::p:pipe | self::p:pipeinfo | self::p:documentation | p:declare-step])) + 1"/>
 	</xsl:function>
 	
 	

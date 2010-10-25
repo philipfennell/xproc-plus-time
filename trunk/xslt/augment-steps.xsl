@@ -32,6 +32,7 @@
 		<xsl:copy copy-namespaces="yes">
 			<xsl:namespace name="c">http://www.w3.org/ns/xproc-step</xsl:namespace>
 			<xsl:namespace name="xpt">http://xproc-plus-time.googlecode.com</xsl:namespace>
+			
 			<xsl:copy-of select="@*"/>
 			<xsl:apply-templates select="* | text()" mode="#current"/>
 		</xsl:copy>
@@ -42,12 +43,14 @@
 	<xsl:template match="p:input" mode="p:augment">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
+			
 			<xsl:if test="not(@primary)">
 				<xsl:attribute name="primary" select="true()"/>
 			</xsl:if>
 			<xsl:if test="not(@sequence)">
 				<xsl:attribute name="sequence" select="false()"/>
 			</xsl:if>
+			
 			<xsl:copy-of select="*"/>
 		</xsl:copy>
 	</xsl:template>	
@@ -58,6 +61,14 @@
 	<xsl:template match="p:output[not(*)]" mode="p:augment">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
+			
+			<xsl:if test="not(@primary)">
+				<xsl:attribute name="primary" select="true()"/>
+			</xsl:if>
+			<xsl:if test="not(@sequence)">
+				<xsl:attribute name="sequence" select="false()"/>
+			</xsl:if>
+			
 			<xsl:variable name="lastStep" as="element()" 
 					select="parent::p:declare-step/*[last()]"/>
 			<p:pipe port="result" step="{($lastStep/@name, generate-id($lastStep))[1]}"/>
