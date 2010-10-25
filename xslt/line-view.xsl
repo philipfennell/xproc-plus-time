@@ -76,6 +76,8 @@
 			<xsl:namespace name="xlink">http://www.w3.org/1999/xlink</xsl:namespace>
 			<xsl:call-template name="svg:dimensions"/>
 			
+			<!--<xsl:apply-templates select="self::p:declare-step" mode="xpt:interaction"/>-->
+			
 			<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="xpt:interaction"/>
 			
 			<g transform="translate(242,{$hSpacing * count(p:input)})">
@@ -96,24 +98,44 @@
 		<set xlink:href="#{@name}Symbol" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="mouseover" end="mouseout"/>
 		<set xlink:href="#{@name}Symbol" attributeName="stroke-width" 	attributeType="CSS" to="5px" 		begin="mouseover" end="mouseout"/>
 		
-		<xsl:apply-templates select="p:pipeinfo/p:output" mode="#current">
+		<xsl:apply-templates select="p:input" mode="#current">
+			<xsl:with-param name="stepName" as="xs:string" select="@name"/>
+		</xsl:apply-templates>
+		
+		<xsl:apply-templates select="descendant-or-self::p:output" mode="#current">
 			<xsl:with-param name="stepName" as="xs:string" select="@name"/>
 		</xsl:apply-templates>
 	</xsl:template>
 	
 	
+	<xsl:template match="p:input" mode="xpt:interaction">
+		<xsl:param name="stepName" as="xs:string"/>
+		
+		<set xlink:role="connection" xlink:href="#{@xml:id}" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="{$stepName}Symbol.mouseover" end="{$stepName}Symbol.mouseout"/>
+		<set xlink:role="connection" xlink:href="#{@xml:id}" attributeName="stroke-width"	attributeType="CSS" to="5px" 		begin="{$stepName}Symbol.mouseover" end="{$stepName}Symbol.mouseout"/>
+	</xsl:template>
+	
+	
 	<xsl:template match="p:output" mode="xpt:interaction">
 		<xsl:param name="stepName" as="xs:string"/>
-		<!-- From. -->
-		<set xlink:href="#{$stepName}Symbol" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="{@xpt:boundPorts}.mouseover" end="{@xpt:boundPorts}.mouseout"/>
-		<set xlink:href="#{$stepName}Symbol" attributeName="stroke-width" 	attributeType="CSS" to="5px" 		begin="{@xpt:boundPorts}.mouseover" end="{@xpt:boundPorts}.mouseout"/>
-		<!-- Connection. -->
-		<set xlink:role="connection" xlink:href="#{@xpt:boundPorts}" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="mouseover" end="mouseout"/>
-		<set xlink:role="connection" xlink:href="#{@xpt:boundPorts}" attributeName="stroke-width" 	attributeType="CSS" to="5px" 		begin="mouseover" end="mouseout"/>
-		<!-- To. -->
-		<xsl:variable name="boundStep" select="id(@xpt:boundports)/../@name"/>
-		<set xlink:href="#{$boundStep}Symbol" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="{@xpt:boundPorts}.mouseover" end="{@xpt:boundPorts}.mouseout"/>
-		<set xlink:href="#{$boundStep}Symbol" attributeName="stroke-width" 	attributeType="CSS" to="5px" 		begin="{@xpt:boundPorts}.mouseover" end="{@xpt:boundPorts}.mouseout"/>
+		<xsl:variable name="contextNode" select="current()"/>
+		
+		<xsl:for-each select="tokenize(@xpt:boundPorts, ' ')">
+			<!-- From. -->
+			<set xlink:href="#{$stepName}Symbol" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="{current()}.mouseover" end="{current()}.mouseout"/>
+			<set xlink:href="#{$stepName}Symbol" attributeName="stroke-width" 	attributeType="CSS" to="5px" 		begin="{current()}.mouseover" end="{current()}.mouseout"/>
+			
+			<!-- Connection. -->
+			<set xlink:role="connection" xlink:href="#{current()}" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="mouseover" end="mouseout"/>
+			<set xlink:role="connection" xlink:href="#{current()}" attributeName="stroke-width"	attributeType="CSS" to="5px" 		begin="mouseover" end="mouseout"/>
+			<set xlink:role="connection" xlink:href="#{current()}" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="{$stepName}Symbol.mouseover" end="{$stepName}Symbol.mouseout"/>
+			<set xlink:role="connection" xlink:href="#{current()}" attributeName="stroke-width"	attributeType="CSS" to="5px" 		begin="{$stepName}Symbol.mouseover" end="{$stepName}Symbol.mouseout"/>
+			
+			<!-- To. -->
+			<xsl:variable name="boundStep" as="xs:string" select="root($contextNode)//node()[@xml:id = current()]/../@name"/>
+			<set xlink:href="#{$boundStep}Symbol" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="{current()}.mouseover" end="{current()}.mouseout"/>
+			<set xlink:href="#{$boundStep}Symbol" attributeName="stroke-width" 	attributeType="CSS" to="5px" 		begin="{current()}.mouseover" end="{current()}.mouseout"/>
+		</xsl:for-each>
 	</xsl:template>
 	
 	
