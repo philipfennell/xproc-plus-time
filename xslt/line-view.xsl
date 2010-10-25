@@ -76,7 +76,14 @@
 			<xsl:namespace name="xlink">http://www.w3.org/1999/xlink</xsl:namespace>
 			<xsl:call-template name="svg:dimensions"/>
 			
-			<!--<xsl:apply-templates select="self::p:declare-step" mode="xpt:interaction"/>-->
+			<style type="text/css">
+				.connection {
+					visibility:visible;
+				}
+				
+			</style>
+			
+			<xsl:apply-templates select="self::p:declare-step" mode="xpt:interaction"/>
 			
 			<xsl:apply-templates select="*[xpt:isVisible(.)]" mode="xpt:interaction"/>
 			
@@ -132,7 +139,7 @@
 			<set xlink:role="connection" xlink:href="#{current()}" attributeName="stroke-width"	attributeType="CSS" to="5px" 		begin="{$stepName}Symbol.mouseover" end="{$stepName}Symbol.mouseout"/>
 			
 			<!-- To. -->
-			<xsl:variable name="boundStep" as="xs:string" select="root($contextNode)//node()[@xml:id = current()]/../@name"/>
+			<xsl:variable name="boundStep" as="xs:string" select="root($contextNode)//node()[@xml:id = current()]/ancestor::node()[@name][1]/@name"/>
 			<set xlink:href="#{$boundStep}Symbol" attributeName="stroke" 		attributeType="CSS" to="#6666FF" 	begin="{current()}.mouseover" end="{current()}.mouseout"/>
 			<set xlink:href="#{$boundStep}Symbol" attributeName="stroke-width" 	attributeType="CSS" to="5px" 		begin="{current()}.mouseover" end="{current()}.mouseout"/>
 		</xsl:for-each>
@@ -274,7 +281,7 @@
 		<xsl:variable name="boundPorts" as="element()*" 
 				select="for $idref in $connectionIds return id($idref)"/>
 		
-		<xsl:for-each select="$boundPorts">
+		<xsl:for-each select="$boundPorts[not(parent::p:declare-step)]">
 			<xsl:variable name="boundStep" as="element()" 
 					select=".."/>
 			<xsl:variable name="contextPosn" as="xs:integer"
