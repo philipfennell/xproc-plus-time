@@ -27,11 +27,20 @@
 	<xsl:template match="p:pipeline" mode="p:normalise">
 		<p:declare-step>
 			<xsl:copy-of select="@*"/>
+			<xsl:if test="not(@version)">
+				<xsl:attribute name="version" select="'1.0'"/>
+			</xsl:if>
+			<xsl:variable name="ports" as="element()+">
+				<p:input port="source"/>
+				<p:output port="result"/>
+				<xsl:sequence select="p:input | p:output"/>				
+			</xsl:variable>
+			<xsl:for-each select="$ports">
+				<xsl:sort select="name()"/>
+				<xsl:copy-of select="."/>
+			</xsl:for-each>
 			
-			<p:input port="source"/>
-			<p:output port="result"/>
-			
-			<xsl:apply-templates select="* | text()" mode="#current"/>
+			<xsl:apply-templates select="* except (p:input, p:output) | text()" mode="#current"/>
 		</p:declare-step>
 	</xsl:template>
 	

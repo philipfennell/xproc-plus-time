@@ -26,6 +26,7 @@
 		</p:input>
 		<p:input port="stylesheet">
 			<p:document href="xslt/line-view.xsl"/>
+<!--			<p:document href="xslt/highlighting-connections-view.xsl"/>-->
 		</p:input>
 	</p:xslt>
 	
