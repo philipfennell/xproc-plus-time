@@ -139,7 +139,7 @@
 				<text x="0" y="-7"><xsl:value-of select="name($contextPort)"/></text>
 				<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
 				<text xsl:use-attribute-sets="name" x="0" y="16">
-					<xsl:value-of select="$contextPort/@port"/>
+					<xsl:value-of select="xpt:truncate-text($contextPort/@port)"/>
 				</text>
 			</g>
 			
@@ -187,7 +187,7 @@
 					<text x="0" y="-7"><xsl:value-of select="name($contextPort)"/></text>
 					<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
 					<text xsl:use-attribute-sets="name" x="0" y="16">
-						<xsl:value-of select="$contextPort/@port"/>
+						<xsl:value-of select="xpt:truncate-text($contextPort/@port)"/>
 					</text>
 				</g>
 				<rect xsl:use-attribute-sets="step" x="-6" y="-6" width="12" height="12" rx="2" ry="2"/>
@@ -222,7 +222,7 @@
 				<line xsl:use-attribute-sets="step line" x1="0" y1="0" x2="180" y2="0"/>
 				<xsl:copy-of select="$stepSymbol"/>
 				<text xsl:use-attribute-sets="name" x="0" y="16">
-					<xsl:value-of select="if (string-length(@name) gt 24) then concat(substring(@name, 1, 24), '...') else @name"/>
+					<xsl:value-of select="xpt:truncate-text(@name)"/>
 				</text>
 			</g>
 		</g>
@@ -297,6 +297,13 @@
 	
 	<xsl:function name="xpt:fromNorth" as="xs:string">
 		<xsl:value-of select="string-join((string($hSpacing * -1), string($vSpacing * 0)), ',')"/>
+	</xsl:function>
+	
+	
+	<xsl:function name="xpt:truncate-text" as="xs:string">
+		<xsl:param name="text" as="xs:string"/>
+		
+		<xsl:value-of select="if (string-length($text) gt 24) then concat(substring($text, 1, 24), '...') else $text"/>
 	</xsl:function>
 	
 	
