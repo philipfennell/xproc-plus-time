@@ -1,0 +1,1 @@
+An investigation into extending the W3C's **XML Pipeline Language (XProc)** with the **Timing** and **Synchronization** modules of the W3C's **Synchronized Multimedia Integration Language (SMIL) Timesheets**, to provide process step orchestration.
